@@ -2,55 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Albane_PlayerMotor))]
 public class Albane_fristPersonController : MonoBehaviour
 {
+    [SerializeField]
+    private float speed = 3f;
+    [SerializeField]
+    private float lookSensitivityX = 3f;
+    [SerializeField]
+    private float lookSensitivityY = 3f;
 
-    CharacterController Player;
-    private Camera eyes;
-    public float walkspeed;
-    public float sensitiity;
-    public float gravity;
-    public Vector3 movement;
+    private Albane_PlayerMotor motor;
 
-    float moveFB;
-    float moveLR;
-    float rotX;
-    float rotY;
-    float verticalVelosity;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        eyes = Camera.main;
-        Player = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        motor = GetComponent<Albane_PlayerMotor>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        moveFB = Input.GetAxis("Vertical") * walkspeed;
-        moveLR = Input.GetAxis("Horizontal") * walkspeed;
+        //Mouvement
 
-        rotX = Input.GetAxis("Mouse X") * sensitiity;
-        rotY = Input.GetAxis("Mouse Y") * sensitiity;
+        float _xMov = Input.GetAxis("Horizontal");
+        float _zMov = Input.GetAxis("Vertical");
 
-        rotY = Mathf.Clamp(rotY, -75f, 75f);
+        Vector3 _moveHorizontal = transform.right * _xMov;
+        Vector3 _moveVectical = transform.forward * _zMov;
 
-        movement = new Vector3(moveLR, verticalVelosity, moveFB);
-        transform.Rotate(0, rotX, 0);
-        eyes.transform.localRotation = Quaternion.Euler(rotY, 0, 0);
-        movement = transform.rotation * movement;
-        Player.Move(movement * Time.deltaTime);
+        Vector3 _velocity = (_moveHorizontal + _moveVectical).normalized * speed;
 
-        if (Player.isGrounded)
-        {
-            verticalVelosity = 0;
-        }
-        else
-        {
-            verticalVelosity += gravity * Time.deltaTime;
-        }
+        motor.Move(_velocity);
+
+        // Rotate
+        float _yRot = Input.GetAxis("Mouse X");
+
+        Vector3 _rotation = new Vector3(0, _yRot, 0) * lookSensitivityX;
+
+        motor.Rotate(_rotation);
+
+        float _xRot = Input.GetAxis("Mouse Y");
+
+        Vector3 _camerarotation = new Vector3(_xRot, 0, 0) * lookSensitivityY;
+
+        motor.RotateCamera(_camerarotation);
+
     }
 }
