@@ -683,7 +683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  lookSensitivity: 4
+  lookSensitivityX: 3
+  lookSensitivityY: 1
 --- !u!136 &776546808
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -710,6 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003e97d216b8dec44a6bced1591b5e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 371846871}
 --- !u!54 &776546810
 Rigidbody:
   m_ObjectHideFlags: 0
