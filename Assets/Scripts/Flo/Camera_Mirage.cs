@@ -4,30 +4,27 @@ using UnityEngine;
 
 public class Camera_Mirage : MonoBehaviour
 {
+    public Camera _cam;
     public LayerMask _mirage;
 
-    private Camera _cam;
+    private Animator _anim;
 
     void Start()
     {
-        _cam = GetComponent<Camera>();
-
         _cam.cullingMask &= ~_mirage;
+        _anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
-            SwitchLayers(_mirage);
+        if (Input.GetKeyDown(KeyCode.E))
+            //SwitchLayers();
+            _anim.SetBool("Cam", !_anim.GetBool("Cam"));
+
     }
 
-    private void SwitchLayers(int layer)
+    private void SwitchLayers()
     {
-        //if((_cam.cullingMask & layer) > 0)
-        //    _cam.cullingMask &= ~layer;
-        //else
-        //    _cam.cullingMask |= layer;
-
-        _cam.cullingMask ^= layer;
+        _cam.cullingMask ^= _mirage;
     }
 }
