@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Battery : Item
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void ApplyItem()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("Tu a changé les piles de ta lampe torche");
     }
 }

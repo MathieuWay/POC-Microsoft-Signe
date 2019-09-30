@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+abstract public class Item : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,4 +15,11 @@ public class Item : MonoBehaviour
     {
         
     }
+
+    void LootItem()
+    {
+
+    }
+
+    protected abstract void ApplyItem();
 }
