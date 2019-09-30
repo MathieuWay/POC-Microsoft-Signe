@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class Item : MonoBehaviour
+public class Item : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -21,5 +21,5 @@ abstract public class Item : MonoBehaviour
 
     }
 
-    protected abstract void ApplyItem();
+    protected virtual void ApplyItem() { }
 }
