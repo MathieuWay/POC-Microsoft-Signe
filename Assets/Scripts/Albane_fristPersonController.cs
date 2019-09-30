@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [RequireComponent(typeof(Albane_PlayerMotor))]
 public class Albane_fristPersonController : MonoBehaviour
@@ -11,12 +12,16 @@ public class Albane_fristPersonController : MonoBehaviour
     private float lookSensitivityX = 3f;
     [SerializeField]
     private float lookSensitivityY = 3f;
+    [SerializeField]
+    public PlayableDirector director;
+
 
     private Albane_PlayerMotor motor;
 
     private void Start()
     {
         motor = GetComponent<Albane_PlayerMotor>();
+        director = GetComponent<PlayableDirector>();
     }
 
     private void Update()
@@ -45,6 +50,17 @@ public class Albane_fristPersonController : MonoBehaviour
         Vector3 _camerarotation = new Vector3(_xRot, 0, 0) * lookSensitivityY;
 
         motor.RotateCamera(_camerarotation);
+
+        //Stop Timeline 
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            director.stopped += OnPlayableDirectorStopped;
+        }
+    }
+
+    void OnPlayableDirectorStopped(PlayableDirector aDirector)
+    {
 
     }
 }
