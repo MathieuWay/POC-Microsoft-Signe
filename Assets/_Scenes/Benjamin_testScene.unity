@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2fcbf3d3499b14f8e945457ecbc075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenshots: []
 --- !u!20 &606731898
 Camera:
   m_ObjectHideFlags: 0
@@ -834,6 +835,7 @@ MonoBehaviour:
   speed: 3
   lookSensitivityX: 3
   lookSensitivityY: 1
+  director: {fileID: 0}
 --- !u!1 &5401521367839330377
 GameObject:
   m_ObjectHideFlags: 0

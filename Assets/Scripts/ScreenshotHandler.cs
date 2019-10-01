@@ -6,6 +6,7 @@ public class ScreenshotHandler : MonoBehaviour
 {
     private static ScreenshotHandler instance;
     private bool takeScreenshotOnNextFrame;
+    public List<Texture> screenshots = new List<Texture>();
 
     private Camera myCamera;
 
@@ -18,17 +19,8 @@ public class ScreenshotHandler : MonoBehaviour
         if (takeScreenshotOnNextFrame){
             takeScreenshotOnNextFrame = false;
             RenderTexture renderTexture = myCamera.targetTexture;
-
-            Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
-            Rect rect = new Rect(0, 0, renderTexture.width, renderTexture.height);
-            renderResult.ReadPixels(rect, 0, 0);
-
-            byte[] byteArray = renderResult.EncodeToPNG();
-            System.IO.File.WriteAllBytes(Application.dataPath + "/CameraScreenshot.png", byteArray);
-            Debug.Log("Saved CameraScreenshot.png");
-
-            RenderTexture.ReleaseTemporary(renderTexture);
-            myCamera.targetTexture = null;
+            screenshots.Add(renderTexture);
+            Debug.Log("Added Screenshot to the list");
         }
     }
 

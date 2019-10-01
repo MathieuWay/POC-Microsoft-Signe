@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToggleSnapshot : MonoBehaviour
+public class DisplayScreenshot : MonoBehaviour
 {
-
-    public SnapshotCamera snapCam;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -16,8 +13,6 @@ public class ToggleSnapshot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)){
-            snapCam.CallTakeSnapshot();
-        }
+        
     }
 }
