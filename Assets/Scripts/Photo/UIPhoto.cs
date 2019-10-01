@@ -38,7 +38,6 @@ public class UIPhoto : MonoBehaviour
         {
             UIPhoto.Instance().ToogleUI();
         }
-
         /*if (Input.GetKeyDown(KeyCode.Space))
         {
             Texture2D texture = new Texture2D(960, 640);
@@ -68,6 +67,7 @@ public class UIPhoto : MonoBehaviour
     public void NewPhoto(Texture2D photo)
     {
         screenshots.Add(photo);
+        currentIndex = screenshots.Count - 1;
         UpdateUI();
     }
 
@@ -90,6 +90,14 @@ public class UIPhoto : MonoBehaviour
     {
         Texture2D tex = screenshots[index];
         imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        //if(index == 0)
+        //TODO disable Left button
+        //else
+        //TODO enable Left button
+        //if(index == screenshots.Count)
+        //TODO disable right button
+        //else
+        //TODO enable right button
     }
 
     public void ChangeFrame(int direction)
