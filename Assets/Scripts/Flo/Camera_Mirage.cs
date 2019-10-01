@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Camera_Mirage : MonoBehaviour
 {
@@ -8,17 +9,20 @@ public class Camera_Mirage : MonoBehaviour
     public LayerMask _mirage;
 
     private Animator _anim;
+    private PostProcessLayer _postProcLayer;
 
     void Start()
     {
-        _cam.cullingMask &= ~_mirage;
         _anim = GetComponent<Animator>();
+        _postProcLayer = _cam.GetComponent<PostProcessLayer>();
+
+        _postProcLayer.enabled = false;
+        _cam.cullingMask &= ~_mirage;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
-            //SwitchLayers();
             _anim.SetBool("Cam", !_anim.GetBool("Cam"));
 
     }
@@ -26,5 +30,6 @@ public class Camera_Mirage : MonoBehaviour
     private void SwitchLayers()
     {
         _cam.cullingMask ^= _mirage;
+        _postProcLayer.enabled = !_cam.GetComponent<PostProcessLayer>().enabled;
     }
 }
