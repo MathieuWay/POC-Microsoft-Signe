@@ -39,7 +39,7 @@ namespace photo
         public Image imageDisplayed;
         private int currentIndex = 0;
 
-        public List<bool> objectPresent;
+        //public List<bool> objectPresent;
 
 
         //Singleton
@@ -55,10 +55,10 @@ namespace photo
         }
         //
 
-        private void Awake()
-        {
-            objectPresent = new List<bool>();
-        }
+        //private void Awake()
+        //{
+        //    objectPresent = new List<bool>();
+        //}
 
         private void Start()
         {
@@ -125,30 +125,30 @@ namespace photo
             }
         }
 
-    private void LoadIndexToImageDisplayed(int index)
-    {
-        Texture2D tex = screenshots[index].render;
-        imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        if (screenshots.Count > 1)
+        private void LoadIndexToImageDisplayed(int index)
         {
-            previousButton.SetActive(true);
-            nextButton.SetActive(true);
-            if (index == 0 || index == screenshots.Count - 1)
+            Texture2D tex = screenshots[index].render;
+            imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+            if (screenshots.Count > 1)
             {
-                if (index == 0)
-                    //TODO disable Left button
-                    previousButton.SetActive(false);
-                else
-                    //TODO enable Left button
-                    nextButton.SetActive(false);
+                previousButton.SetActive(true);
+                nextButton.SetActive(true);
+                if (index == 0 || index == screenshots.Count - 1)
+                {
+                    if (index == 0)
+                        //TODO disable Left button
+                        previousButton.SetActive(false);
+                    else
+                        //TODO enable Left button
+                        nextButton.SetActive(false);
+                }
+            }
+            else
+            {
+                previousButton.SetActive(false);
+                nextButton.SetActive(false);
             }
         }
-        else
-        {
-            previousButton.SetActive(false);
-            nextButton.SetActive(false);
-        }
-    }
 
         public void ChangeFrame(int direction)
         {
