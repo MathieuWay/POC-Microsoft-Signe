@@ -56,7 +56,7 @@ namespace Photo
             }
         }
 
-        public void NewPhoto(List<GameObject> list,Texture2D photo)
+        public void NewPhoto(List<GameObject> list, Texture2D photo)
         {
             screenshots.Add(new StructObjects(list, photo));
             currentIndex = screenshots.Count - 1;
@@ -120,6 +120,16 @@ namespace Photo
                 currentIndex += direction;
                 LoadIndexToImageDisplayed(currentIndex);
             }
+        }
+
+        public bool HasPhoto(GameObject item)
+        {
+            for (int i = 0; i < screenshots.Count; i++)
+                for (int j = 0; j < screenshots[i].listObjects.Length; j++)
+                    if(screenshots[i].listObjects[j] == item)
+                        return true;
+
+            return false;
         }
     }
 }

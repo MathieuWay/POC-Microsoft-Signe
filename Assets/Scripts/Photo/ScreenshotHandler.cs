@@ -66,10 +66,7 @@ public class ScreenshotHandler : MonoBehaviour
 
             for (int i = 0; i < goTagArray.Length; i++)
                 if (goTagArray[i].GetComponent<Renderer>().isVisible)
-                {
-                    Debug.Log(goTagArray[i].name + " " + i + " is visible");
                     tempList.Add(goTagArray[i]);
-                }
                 
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
