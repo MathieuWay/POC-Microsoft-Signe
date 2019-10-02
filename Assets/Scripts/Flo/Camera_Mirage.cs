@@ -34,5 +34,10 @@ public class Camera_Mirage : MonoBehaviour
         _cam.cullingMask ^= _mirageLayer;
         _postProcLayer.enabled = !_cam.GetComponent<PostProcessLayer>().enabled;
         _mirageUI.SetActive(!_mirageUI.activeSelf);
+
+        if ((_cam.cullingMask & _mirageLayer) != 0)
+            Photo.UIPhoto.Instance().cameraActive = true;
+        else
+            Photo.UIPhoto.Instance().cameraActive = false;
     }
 }
