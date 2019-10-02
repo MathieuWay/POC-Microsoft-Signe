@@ -19,13 +19,13 @@ public class Albane_fristPersonController : MonoBehaviour
 
     private Albane_PlayerMotor motor;
     private Rewind rewind;
-    private bool rewinding = false;
+    //private bool rewinding = false;
 
     private void Start()
     {
         motor = GetComponent<Albane_PlayerMotor>();
         animator = GetComponent<Animator>();
-        rewind = GetComponent<Rewind>();
+        rewind = GameObject.FindObjectOfType<Rewind>();
 
     }
 
@@ -60,25 +60,28 @@ public class Albane_fristPersonController : MonoBehaviour
 
         motor.RotateCamera(_camerarotation);
 
-       /* if (Input.GetKeyDown(KeyCode.A))
+        /* if (Input.GetKeyDown(KeyCode.A))
+         {
+
+         }
+         else if (Input.GetKeyUp(KeyCode.A))
+         {
+
+         }*/
+        if (Input.GetKeyDown(KeyCode.A))
         {
-           
+            rewind.ReverseScene();
         }
-        else if (Input.GetKeyUp(KeyCode.A))
+        else if(Input.GetKeyUp(KeyCode.A))
         {
-
+            rewind.ResumeScene();
         }
 
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && rewind != null)
         {
-
-
-        }*/
-    }
-
-    public void Rewind()
-    {
-
+            Debug.Log("toggle scene");
+            rewind.ToggleScene();
+        }
     }
 }
