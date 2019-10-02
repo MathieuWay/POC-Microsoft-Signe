@@ -25,7 +25,7 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetKeyDown(KeyCode.Space)) {
             TakeScreenshot(500,500);
         }
 
@@ -61,7 +61,13 @@ public class ScreenshotHandler : MonoBehaviour
             renderResult.Apply();
             //Applique la RenderTexture sur une Texture2D
 
-            UIPhoto.Instance().NewPhoto(renderResult);
+            List<GameObject> tempList = new List<GameObject>();
+            for (int i = 0; i < photo.UIPhoto.Instance().objectPresent.Count; i++)
+            {
+                //if(photo.UIPhoto.Instance().objectPresent[i])
+                    //tempList.Add()
+            }
+            photo.UIPhoto.Instance().NewPhoto(new photo.StructObjects(new List<GameObject>(), renderResult));
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
             
             
