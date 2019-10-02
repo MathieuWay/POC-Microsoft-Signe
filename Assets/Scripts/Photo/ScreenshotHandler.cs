@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class ScreenshotHandler : MonoBehaviour
 {
     private static ScreenshotHandler instance;
-
     private Camera myCamera;
     private bool takeScreenshotOnNextFrame;
+    
     //public RawImage rawimg; Sert à voir en temps réel si le système marche
 
     private RenderTexture renderTexture;
@@ -36,10 +36,13 @@ public class ScreenshotHandler : MonoBehaviour
         
         myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
         //Change le rendu de la caméra en une texture temporaire
+
         takeScreenshotOnNextFrame = true;
         //Lance le signal pour démarrer la fonction OnPostRender
+
         myCamera.Render();
         //screenshotsTaken++; Prend un espace dans une pellicule
+
         myCamera.targetTexture=null;
         //Remets le rendu normal de la caméra
         //}
@@ -49,6 +52,7 @@ public class ScreenshotHandler : MonoBehaviour
         if (takeScreenshotOnNextFrame){
             takeScreenshotOnNextFrame = false;
             //Empêche la procédure de tourner en boucle
+
             renderTexture = myCamera.targetTexture;
             //Applique la texture de la caméra à une renderTexture indépendante
             
