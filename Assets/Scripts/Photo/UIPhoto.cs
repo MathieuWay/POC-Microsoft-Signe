@@ -4,6 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace photo
 {
+    //private List<structObjects> screenshots = new List<structObjects>();
+    //private GameObject ui;
+    //public GameObject textNoPhoto;
+    //public Image imageDisplayed;
+    //public GameObject previousButton;
+    //public GameObject nextButton;
+    //private int currentIndex = 0;
+    ////Singleton
+    //private static UIPhoto instance = null;
+    //public Texture2D render;
+    //public static UIPhoto Instance()
+    //{
+    //    public GameObject[] listObjects;
+
     public struct StructObjects
     {
         public GameObject[] listObjects;
@@ -111,19 +125,30 @@ namespace photo
             }
         }
 
-        private void LoadIndexToImageDisplayed(int index)
+    private void LoadIndexToImageDisplayed(int index)
+    {
+        Texture2D tex = screenshots[index].render;
+        imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        if (screenshots.Count > 1)
         {
-            Texture2D tex = screenshots[index].render;
-            imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-            //if(index == 0)
-            //TODO disable Left button
-            //else
-            //TODO enable Left button
-            //if(index == screenshots.Count)
-            //TODO disable right button
-            //else
-            //TODO enable right button
+            previousButton.SetActive(true);
+            nextButton.SetActive(true);
+            if (index == 0 || index == screenshots.Count - 1)
+            {
+                if (index == 0)
+                    //TODO disable Left button
+                    previousButton.SetActive(false);
+                else
+                    //TODO enable Left button
+                    nextButton.SetActive(false);
+            }
         }
+        else
+        {
+            previousButton.SetActive(false);
+            nextButton.SetActive(false);
+        }
+    }
 
         public void ChangeFrame(int direction)
         {
