@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class UIPhoto : MonoBehaviour
 {
-    private List<Texture2D> screenshots = new List<Texture2D>();
+    private List<structObjects> screenshots = new List<structObjects>();
     private GameObject ui;
     public GameObject textNoPhoto;
     public Image imageDisplayed;
     private int currentIndex = 0;
+    private struct structObjects
+    {
+        List<GameObject> listObjects = new List<GameObject>();
+        Texture2D render;
+    }
     //Singleton
     private static UIPhoto instance = null;
     public static UIPhoto Instance()
