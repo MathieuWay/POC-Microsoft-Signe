@@ -9,12 +9,13 @@ public class ScreenshotHandler : MonoBehaviour
 
     private Camera myCamera;
     private bool takeScreenshotOnNextFrame;
-    public RawImage rawimg;
+    //public RawImage rawimg; Sert à voir en temps réel si le système marche
+
     private RenderTexture renderTexture;
     
 
-    public int screenshotCapacity;
-    private int screenshotsTaken = 0;
+    //public int screenshotCapacity; Le nombre de pellicules disponible dans l'appareil
+    //private int screenshotsTaken = 0; Le nombre de pellicules contenant une photo
     
 
     private void Awake(){
@@ -27,34 +28,39 @@ public class ScreenshotHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){
             TakeScreenshot(500,500);
         }
+
+    }
+
+    private void TakeScreenshot(int width, int height){
+        //if(screenshotsTaken<screenshotCapacity){
+        
+        myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
+        //Change le rendu de la caméra en une texture temporaire
+        takeScreenshotOnNextFrame = true;
+        //Lance le signal pour démarrer la fonction OnPostRender
+        myCamera.Render();
+        //screenshotsTaken++; Prend un espace dans une pellicule
+        myCamera.targetTexture=null;
+        //Remets le rendu normal de la caméra
+        //}
     }
 
     private void OnPostRender(){
         if (takeScreenshotOnNextFrame){
             takeScreenshotOnNextFrame = false;
+            //Empêche la procédure de tourner en boucle
             renderTexture = myCamera.targetTexture;
-           
+            //Applique la texture de la caméra à une renderTexture indépendante
             
             Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);;
-            
             renderResult.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
             renderResult.Apply();
+            //Applique la RenderTexture sur une Texture2D
 
             UIPhoto.Instance().NewPhoto(renderResult);
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
             
             
-        }
-    }
-
-    private void TakeScreenshot(int width, int height){
-        if(screenshotsTaken<screenshotCapacity){
-        
-        myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
-        takeScreenshotOnNextFrame = true;
-        myCamera.Render();
-        screenshotsTaken++;
-        myCamera.targetTexture=null;
         }
     }
     

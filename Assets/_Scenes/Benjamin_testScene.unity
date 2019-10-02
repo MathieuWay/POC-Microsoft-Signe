@@ -825,7 +825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1306776284
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1030,8 +1030,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2fcbf3d3499b14f8e945457ecbc075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawimg: {fileID: 0}
-  screenshotCapacity: 16
 --- !u!20 &1687790923
 Camera:
   m_ObjectHideFlags: 0
@@ -1093,7 +1091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1692908530
 MonoBehaviour:
   m_ObjectHideFlags: 0
