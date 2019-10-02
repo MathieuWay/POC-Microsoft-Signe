@@ -61,15 +61,17 @@ public class ScreenshotHandler : MonoBehaviour
             renderResult.Apply();
             //Applique la RenderTexture sur une Texture2D
 
-            //List<GameObject> tempList = new List<GameObject>();
-            
-            //GameObject[] 
-            //for (int i = 0; i < ; i++)
-            //{
+            List<GameObject> tempList = new List<GameObject>();
+            GameObject[] goTagArray = GameObject.FindGameObjectsWithTag("Usable");
 
-            //}
+            for (int i = 0; i < goTagArray.Length; i++)
+                if (goTagArray[i].GetComponent<Renderer>().isVisible)
+                    tempList.Add(goTagArray[i]);
 
-            photo.UIPhoto.Instance().NewPhoto(new photo.StructObjects(new List<GameObject>(), renderResult));
+            for (int i = 0; i < tempList.Count; i++)
+                Debug.Log(tempList[i].name);
+
+            Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
             
             
