@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ScreenshotHandler : MonoBehaviour
 {
     private static ScreenshotHandler instance;
-    private Camera myCamera;
+    public Camera myCamera;
+    //public Camera eyes;
     private bool takeScreenshotOnNextFrame;
     
     //public RawImage rawimg; Sert à voir en temps réel si le système marche
@@ -21,12 +22,14 @@ public class ScreenshotHandler : MonoBehaviour
     private void Awake(){
         instance = this;
         myCamera = gameObject.GetComponent<Camera>();
+        //eyes.enabled = true;
     }
 
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)) {
             TakeScreenshot(500,500);
+         
         }
 
     }
@@ -76,5 +79,11 @@ public class ScreenshotHandler : MonoBehaviour
         }
     }
     
-    
+    /*public void ShowOverheadView()
+    {
+        myCamera.enabled = true;
+        eyes.enabled = false;
+    }*/
+
+
 }

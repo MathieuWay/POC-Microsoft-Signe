@@ -706,8 +706,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af002bd14ad69984d85caf9a1b61f39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paused: 1
+  reversed: 0
   duration: 0.75
   currentSpeed: 0
+  targetSpeed: 0
 --- !u!1001 &1450336903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -725,6 +728,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: bb6b48c9480a93046b04fc8492c692e4,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 36da4cb891fe1b14aae213f5ddd7de31, type: 2}
     - target: {fileID: -4216859302048453862, guid: bb6b48c9480a93046b04fc8492c692e4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -780,11 +788,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: bb6b48c9480a93046b04fc8492c692e4,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 36da4cb891fe1b14aae213f5ddd7de31, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb6b48c9480a93046b04fc8492c692e4, type: 3}
 --- !u!1 &1716273269 stripped
