@@ -73,9 +73,6 @@ public class Albane_fristPersonController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
 
-        }
-        else if (Input.GetKeyUp(KeyCode.P))
-        {
 
         }*/
     }
