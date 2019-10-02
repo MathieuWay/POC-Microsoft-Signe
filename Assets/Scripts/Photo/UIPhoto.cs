@@ -9,6 +9,8 @@ public class UIPhoto : MonoBehaviour
     private GameObject ui;
     public GameObject textNoPhoto;
     public Image imageDisplayed;
+    public GameObject previousButton;
+    public GameObject nextButton;
     private int currentIndex = 0;
     //Singleton
     private static UIPhoto instance = null;
@@ -90,14 +92,25 @@ public class UIPhoto : MonoBehaviour
     {
         Texture2D tex = screenshots[index];
         imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        //if(index == 0)
-        //TODO disable Left button
-        //else
-        //TODO enable Left button
-        //if(index == screenshots.Count)
-        //TODO disable right button
-        //else
-        //TODO enable right button
+        if (screenshots.Count > 1)
+        {
+            previousButton.SetActive(true);
+            nextButton.SetActive(true);
+            if (index == 0 || index == screenshots.Count - 1)
+            {
+                if (index == 0)
+                    //TODO disable Left button
+                    previousButton.SetActive(false);
+                else
+                    //TODO enable Left button
+                    nextButton.SetActive(false);
+            }
+        }
+        else
+        {
+            previousButton.SetActive(false);
+            nextButton.SetActive(false);
+        }
     }
 
     public void ChangeFrame(int direction)

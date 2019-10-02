@@ -496,6 +496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textNoPhoto: {fileID: 2177818394571086318}
   imageDisplayed: {fileID: 5406783220664247552}
+  previousButton: {fileID: 5406783220902096367}
+  nextButton: {fileID: 5406783220562503208}
 --- !u!1 &5406783220562503208
 GameObject:
   m_ObjectHideFlags: 0

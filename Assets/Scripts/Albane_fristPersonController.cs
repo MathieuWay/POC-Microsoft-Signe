@@ -89,6 +89,7 @@ public class Albane_fristPersonController : MonoBehaviour
         }
         else
         {
+            /*
             if(Input.GetKeyUp(KeyCode.A))
                 startTime = Time.time;
             if (currentSpeed <=  0f)
@@ -107,7 +108,7 @@ public class Albane_fristPersonController : MonoBehaviour
                 director.time -= currentSpeed * Time.deltaTime;
                 if (director.time < 0)
                     director.time = 0;
-            }
+            }*/
         }
     }
 }
