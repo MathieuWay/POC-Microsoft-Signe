@@ -12,19 +12,21 @@ public class Albane_fristPersonController : MonoBehaviour
     private float lookSensitivityX = 3f;
     [SerializeField]
     private float lookSensitivityY = 3f;
-    [SerializeField]
-    public PlayableDirector director;
-    private bool paused = false;
-    public float duration = 0.75f;
-    private float startTime = 0;
-    public float currentSpeed = 0;
+   
+
+    Animator animator;
 
 
     private Albane_PlayerMotor motor;
+    private Rewind rewind;
+    private bool rewinding = false;
 
     private void Start()
     {
         motor = GetComponent<Albane_PlayerMotor>();
+        animator = GetComponent<Animator>();
+        rewind = GetComponent<Rewind>();
+
     }
 
     private void Update()
@@ -33,6 +35,10 @@ public class Albane_fristPersonController : MonoBehaviour
 
         float _xMov = Input.GetAxis("Horizontal");
         float _zMov = Input.GetAxis("Vertical");
+        //animator.Play("Walk");
+
+       
+
 
         Vector3 _moveHorizontal = transform.right * _xMov;
         Vector3 _moveVectical = transform.forward * _zMov;
@@ -54,60 +60,28 @@ public class Albane_fristPersonController : MonoBehaviour
 
         motor.RotateCamera(_camerarotation);
 
-        //Stop Timeline 
+       /* if (Input.GetKeyDown(KeyCode.A))
+        {
+           
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+
+        }
+
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (director.state == PlayState.Playing)
-            {
-                director.Pause();
-                paused = true;
-            }
-            else
-            {
-                director.Play();
-                paused = false;
-            }
+
         }
-        if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKeyUp(KeyCode.P))
         {
 
-            //Should be on play to reverse
-            if (director.state != PlayState.Playing)
-                director.Play();
-            //Calcule speed
-            if (Input.GetKeyDown(KeyCode.A))
-                startTime = Time.time;
-            // Calculate the fraction of the total duration that has passed.
-            float t = (Time.time - startTime) / duration;
-            //currentSpeed = Mathf.Lerp(0, 1, currentSpeed + Time.fixedDeltaTime);
-            currentSpeed = Mathf.SmoothStep(0, 1, t);
-            //add time
-            director.time -= currentSpeed * Time.deltaTime;
-            if (director.time < 0)
-                director.time = 0;
-        }
-        else
-        {
-            if(Input.GetKeyUp(KeyCode.A))
-                startTime = Time.time;
-            if (currentSpeed <=  0f)
-            {
-                //Debug.Log("reset speed(speed:"+ currentSpeed +")");
-                currentSpeed = 0;
-                if (director.state != PlayState.Paused && paused)
-                {
-                    director.Pause();
-                }
-            }
-            else
-            {
-                float t = (Time.time - startTime) / duration;
-                currentSpeed = Mathf.Lerp(1, 0, t);
-                director.time -= currentSpeed * Time.deltaTime;
-                if (director.time < 0)
-                    director.time = 0;
-            }
-        }
+        }*/
+    }
+
+    public void Rewind()
+    {
+
     }
 }
