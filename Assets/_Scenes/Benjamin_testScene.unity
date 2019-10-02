@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 639582621}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Usable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 647893448}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Usable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 1621737556}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Usable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1278,9 +1278,6 @@ MonoBehaviour:
   speed: 3
   lookSensitivityX: 3
   lookSensitivityY: 1
-  director: {fileID: 1157759187}
-  duration: 0.75
-  currentSpeed: 0
 --- !u!1 &5401521367839330377
 GameObject:
   m_ObjectHideFlags: 0
