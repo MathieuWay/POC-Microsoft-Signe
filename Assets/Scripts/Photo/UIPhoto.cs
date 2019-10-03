@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Photo
 {
+    #region Structures
     public struct StructObjects
     {
         public GameObject[] listObjects;
@@ -16,18 +17,20 @@ namespace Photo
             render = texture;
         }
     }
+    #endregion
 
     public class UIPhoto : MonoBehaviour
     {
-        private List<StructObjects> screenshots = new List<StructObjects>();
-        private GameObject ui;
         public GameObject textNoPhoto;
         public Image imageDisplayed;
         public GameObject previousButton;
         public GameObject nextButton;
-        private int currentIndex = 0;
-
         public bool cameraActive;
+
+        private GameObject ui;
+        private int currentIndex = 0;
+        private List<StructObjects> screenshots = new List<StructObjects>();
+        private GameObject itemVisual;
 
         //Singleton
         private static UIPhoto instance = null;
@@ -46,17 +49,18 @@ namespace Photo
             ui = transform.GetChild(0).gameObject;
         }
 
-        public void ToogleUI()
-        {
-            ui.gameObject.SetActive(!ui.gameObject.activeSelf);
-        }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                UIPhoto.Instance().ToogleUI();
+                UIPhoto.Instance().ToggleUI();
             }
+        }
+
+        public void ToggleUI()
+        {
+            ui.gameObject.SetActive(!ui.gameObject.activeSelf);
         }
 
         public void NewPhoto(List<GameObject> list, Texture2D photo)
@@ -123,6 +127,11 @@ namespace Photo
                 currentIndex += direction;
                 LoadIndexToImageDisplayed(currentIndex);
             }
+        }
+
+        public void ExamineItems(int index)
+        {
+            //itemVisual = Instantiate(screenshots[index].listObjects[0], );
         }
 
         public bool HasPhoto(GameObject item)

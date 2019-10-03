@@ -14,12 +14,12 @@ public class ScreenshotHandler : MonoBehaviour
 
     private RenderTexture renderTexture;
     
-
     //public int screenshotCapacity; Le nombre de pellicules disponible dans l'appareil
     //private int screenshotsTaken = 0; Le nombre de pellicules contenant une photo
     
 
-    private void Awake(){
+    private void Awake()
+    {
         instance = this;
         myCamera = gameObject.GetComponent<Camera>();
         //eyes.enabled = true;
@@ -27,14 +27,15 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
             TakeScreenshot(500,500);
-         
         }
 
     }
 
-    private void TakeScreenshot(int width, int height){
+    private void TakeScreenshot(int width, int height)
+    {
         //if(screenshotsTaken<screenshotCapacity){
         
         myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
@@ -51,15 +52,17 @@ public class ScreenshotHandler : MonoBehaviour
         //}
     }
 
-    private void OnPostRender(){
-        if (takeScreenshotOnNextFrame){
+    private void OnPostRender()
+    {
+        if (takeScreenshotOnNextFrame)
+        {
             takeScreenshotOnNextFrame = false;
             //Empêche la procédure de tourner en boucle
 
             renderTexture = myCamera.targetTexture;
             //Applique la texture de la caméra à une renderTexture indépendante
             
-            Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);;
+            Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
             renderResult.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
             renderResult.Apply();
             //Applique la RenderTexture sur une Texture2D
