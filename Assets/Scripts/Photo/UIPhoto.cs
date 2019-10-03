@@ -26,6 +26,9 @@ namespace Photo
         public GameObject previousButton;
         public GameObject nextButton;
         private int currentIndex = 0;
+
+        public bool cameraActive;
+
         //Singleton
         private static UIPhoto instance = null;
 

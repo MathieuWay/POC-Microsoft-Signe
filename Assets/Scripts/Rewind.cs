@@ -11,21 +11,23 @@ public class Rewind : MonoBehaviour
     
     private PlayableDirector director;
 
-    private bool paused = false;
+    public bool paused = true;
+    public bool reversed = false;
     public float duration = 0.75f;
     private float startTime = 0;
     public float currentSpeed = 0;
-
+    public float targetSpeed = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         director = GetComponent<PlayableDirector>();
+        Debug.Log(director.duration);
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (director.state == PlayState.Playing)
@@ -78,6 +80,59 @@ public class Rewind : MonoBehaviour
                 if (director.time < 0)
                     director.time = 0;
             }
+        }*/
+        float t = (Time.time - startTime) / duration;
+        float actualSpeed = Mathf.Lerp(currentSpeed, targetSpeed, t);
+        //Debug.Log("min:"+currentSpeed+"/max:"+ targetSpeed + "/t:"+t);
+        //achived speed
+        if(targetSpeed - actualSpeed == 0)
+            currentSpeed = targetSpeed;
+
+        if (director.time + actualSpeed * Time.deltaTime > director.duration)
+            director.time = director.duration;
+        else if (director.time + actualSpeed * Time.deltaTime < 0)
+            director.time = 0;
+        else
+            director.time += actualSpeed * Time.deltaTime;
+    }
+    
+    public void PlayScene()
+    {
+        startTime = Time.time;
+        targetSpeed = 1;
+    }
+
+    public void PauseScene()
+    {
+        startTime = Time.time;
+        targetSpeed = 0;
+    }
+
+    public void ToggleScene()
+    {
+        if (paused)
+            PlayScene();
+        else
+            PauseScene();
+        paused = !paused;
+    }
+
+    public void ResumeScene()
+    {
+        if (!paused)
+        {
+            PlayScene();
         }
+        else
+        {
+            if(targetSpeed != 0)
+                PauseScene();
+        }
+    }
+
+    public void ReverseScene()
+    {
+        startTime = Time.time;
+        targetSpeed = -1;
     }
 }
