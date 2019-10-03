@@ -27,16 +27,14 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
+        if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0)
             TakeScreenshot(500,500);
-        }
 
     }
 
     private void TakeScreenshot(int width, int height)
     {
-        //if(screenshotsTaken<screenshotCapacity){
+        //if(screenshotsTaken<screenshotCapacity) {
         
         myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
         //Change le rendu de la caméra en une texture temporaire
@@ -73,7 +71,9 @@ public class ScreenshotHandler : MonoBehaviour
             for (int i = 0; i < goTagArray.Length; i++)
                 if (goTagArray[i].GetComponent<Renderer>().isVisible)
                     tempList.Add(goTagArray[i]);
-                
+
+            for (int i = 0; i < tempList.Count; i++)
+                Debug.Log(tempList[i] + " " + i);
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image

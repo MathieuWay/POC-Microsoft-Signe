@@ -37,9 +37,6 @@ public class Albane_fristPersonController : MonoBehaviour
         float _zMov = Input.GetAxis("Vertical");
         //animator.Play("Walk");
 
-       
-
-
         Vector3 _moveHorizontal = transform.right * _xMov;
         Vector3 _moveVectical = transform.forward * _zMov;
 
@@ -76,7 +73,6 @@ public class Albane_fristPersonController : MonoBehaviour
         {
             rewind.ResumeScene();
         }
-
 
         if (Input.GetKeyDown(KeyCode.P) && rewind != null)
         {
