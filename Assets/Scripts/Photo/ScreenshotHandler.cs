@@ -36,7 +36,7 @@ public class ScreenshotHandler : MonoBehaviour
     {
         //if(screenshotsTaken<screenshotCapacity) {
         
-        myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
+        myCamera.targetTexture = RenderTexture.GetTemporary(myCamera.pixelWidth, myCamera.pixelHeight, 16);
         //Change le rendu de la caméra en une texture temporaire
 
         takeScreenshotOnNextFrame = true;
