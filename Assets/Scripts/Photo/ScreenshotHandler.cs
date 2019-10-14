@@ -72,8 +72,8 @@ public class ScreenshotHandler : MonoBehaviour
                 if (goTagArray[i].GetComponent<Renderer>().isVisible)
                     tempList.Add(goTagArray[i]);
 
-            for (int i = 0; i < tempList.Count; i++)
-                Debug.Log(tempList[i] + " " + i);
+            //for (int i = 0; i < tempList.Count; i++)
+            //    Debug.Log(tempList[i] + " " + i);
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image

@@ -142,6 +142,8 @@ namespace Photo
             }
         }
 
+        #region Visuel de l'item dans la galerie
+
         public void VisualItemToggle(int index)
         {
             if (VisualItemIsVisible())
@@ -150,7 +152,7 @@ namespace Photo
             else
             {
                 itemVisual = Instantiate(screenshots[index].listObjects[0], visualParent.transform);
-                itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer
+                itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
             }
         }
 
@@ -170,8 +172,13 @@ namespace Photo
         {
             if (visualParent.transform.childCount > 0)
                 return true;
+
             return false;
         }
+
+        #endregion
+
+        #region  Utilitaires photos
 
         public bool HasPhoto(GameObject item)
         {
@@ -182,5 +189,26 @@ namespace Photo
 
             return false;
         }
+
+        public int FindPhoto(GameObject item)
+        {
+            for (int i = 0; i < screenshots.Count; i++)
+                for (int j = 0; j < screenshots[i].listObjects.Length; j++)
+                    if (screenshots[i].listObjects[j] == item)
+                        return i;
+
+            return -1;
+        }
+
+        public void RemovePhoto(int i)
+        {
+            screenshots.RemoveAt(i);
+            if (currentIndex == i)
+                currentIndex--;
+
+            UpdateUI();
+        }
+
+        #endregion
     }
 }

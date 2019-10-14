@@ -16,7 +16,12 @@ public class Door : MonoBehaviour
 
     public void Use()
     {
-        if(Photo.UIPhoto.Instance().HasPhoto(key))
+        int numPhoto = Photo.UIPhoto.Instance().FindPhoto(key);
+
+        if (numPhoto > -1)
+        {
+            Photo.UIPhoto.Instance().RemovePhoto(numPhoto);
             gameObject.SetActive(false);
+        }
     }
 }
