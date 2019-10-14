@@ -21,6 +21,7 @@ namespace Photo
 
     public class UIPhoto : MonoBehaviour
     {
+        public LayerMask layerUI;
         public GameObject textNoPhoto;
         public Image imageDisplayed;
         public GameObject previousButton;
@@ -32,6 +33,7 @@ namespace Photo
         private int currentIndex = 0;
         private List<StructObjects> screenshots = new List<StructObjects>();
         private GameObject itemVisual;
+        private LayerMask layerTemp;
 
         //Singleton
         private static UIPhoto instance = null;
@@ -61,6 +63,7 @@ namespace Photo
                     ToggleUI();
                 VisualItemToggle(currentIndex);
             }
+
             if (VisualItemIsVisible())
                 VisualItemRotation();
         }
@@ -68,10 +71,21 @@ namespace Photo
         public void ToggleUI()
         {
             ui.gameObject.SetActive(!ui.gameObject.activeSelf);
-            if(ui.gameObject.activeSelf)
+            //Camera.main.cullingMask ^= layerUI;
+
+            if (ui.gameObject.activeSelf)
+            {
+                layerTemp = Camera.main.cullingMask;
+                Camera.main.cullingMask = layerUI;
                 Time.timeScale = 0;
-            else
+            } else
+            {
+                Camera.main.cullingMask = layerTemp;
                 Time.timeScale = 1;
+            }
+
+            if (VisualItemIsVisible())
+                VisualItemToggle(0);
         }
 
         public void NewPhoto(List<GameObject> list, Texture2D photo)
@@ -149,10 +163,15 @@ namespace Photo
             if (VisualItemIsVisible())
                 for (int i = 0; i < visualParent.transform.childCount; i++)
                     Destroy(visualParent.transform.GetChild(i).gameObject);
-            else
+            else if (screenshots[index].listObjects.Length > 0)
             {
                 itemVisual = Instantiate(screenshots[index].listObjects[0], visualParent.transform);
-                itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
+                //itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
+                itemVisual.transform.localPosition = new Vector3(0, 0, -300);
+                itemVisual.transform.localScale = new Vector3(itemVisual.transform.localScale.x * 600, itemVisual.transform.localScale.y * 600, itemVisual.transform.localScale.z * 600);
+                itemVisual.layer = LayerMask.NameToLayer("UI");
+                foreach (Transform child in itemVisual.transform)
+                    child.gameObject.layer = LayerMask.NameToLayer("UI");
             }
         }
 

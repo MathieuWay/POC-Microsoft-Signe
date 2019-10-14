@@ -13,6 +13,7 @@ public class ScreenshotHandler : MonoBehaviour
     //public RawImage rawimg; Sert à voir en temps réel si le système marche
 
     private RenderTexture renderTexture;
+    private RaycastHit hit;
     
     //public int screenshotCapacity; Le nombre de pellicules disponible dans l'appareil
     //private int screenshotsTaken = 0; Le nombre de pellicules contenant une photo
@@ -27,9 +28,16 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0)
-            TakeScreenshot(500,500);
+        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 /*&& Photo.UIPhoto.Instance().cameraActive*/)
+            TakeScreenshot(500, 500);
+        //else if (Input.GetKeyDown(KeyCode.Space))
+        //{
+            //Debug.Log(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2));
+            if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
+                Debug.Log(hit.collider.name);
+        //}
 
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 2, Color.green);
     }
 
     private void TakeScreenshot(int width, int height)
@@ -65,20 +73,34 @@ public class ScreenshotHandler : MonoBehaviour
             renderResult.Apply();
             //Applique la RenderTexture sur une Texture2D
 
+            // Photo avec TOUS les objets visibles (Probleme objets sans mesh renderer)
+            //List<GameObject> tempList = new List<GameObject>();
+            //GameObject[] goTagArray = GameObject.FindGameObjectsWithTag("Usable");
+
+            //for (int i = 0; i < goTagArray.Length; i++)
+            //    if (goTagArray[i].GetComponent<Renderer>().isVisible)
+            //        tempList.Add(goTagArray[i]);
+
+
+            //Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
+
             List<GameObject> tempList = new List<GameObject>();
-            GameObject[] goTagArray = GameObject.FindGameObjectsWithTag("Usable");
 
-            for (int i = 0; i < goTagArray.Length; i++)
-                if (goTagArray[i].GetComponent<Renderer>().isVisible)
-                    tempList.Add(goTagArray[i]);
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
+            {
+                tempList.Add(hit.collider.gameObject);
 
-            //for (int i = 0; i < tempList.Count; i++)
-            //    Debug.Log(tempList[i] + " " + i);
+                for (int i = 0; i < tempList.Count; i++)
+                    Debug.Log(tempList[i] + " " + i);
+            }
+
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
+
+            
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
-            
-            
+
+
         }
     }
     
