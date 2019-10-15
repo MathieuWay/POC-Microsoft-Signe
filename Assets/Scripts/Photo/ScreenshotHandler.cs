@@ -7,6 +7,7 @@ public class ScreenshotHandler : MonoBehaviour
 {
     private static ScreenshotHandler instance;
     public Camera myCamera;
+    public float photoDistance;
     //public Camera eyes;
     private bool takeScreenshotOnNextFrame;
     
@@ -33,11 +34,11 @@ public class ScreenshotHandler : MonoBehaviour
         //else if (Input.GetKeyDown(KeyCode.Space))
         //{
             //Debug.Log(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2));
-            if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
-                Debug.Log(hit.collider.name);
+            //if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
+                //Debug.Log(hit.collider.name);
         //}
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 2, Color.green);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);
     }
 
     private void TakeScreenshot(int width, int height)
@@ -86,7 +87,7 @@ public class ScreenshotHandler : MonoBehaviour
 
             List<GameObject> tempList = new List<GameObject>();
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance) && hit.collider.CompareTag("Usable"))
             {
                 tempList.Add(hit.collider.gameObject);
 

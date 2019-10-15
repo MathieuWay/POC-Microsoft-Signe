@@ -102,6 +102,10 @@ namespace Photo
             {
                 currentIndex--;
             }
+
+            if (VisualItemIsVisible())
+                VisualItemToggle(0);
+
             UpdateUI();
         }
 
