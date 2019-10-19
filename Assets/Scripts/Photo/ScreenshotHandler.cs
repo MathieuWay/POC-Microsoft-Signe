@@ -18,6 +18,9 @@ public class ScreenshotHandler : MonoBehaviour
     
     //public int screenshotCapacity; Le nombre de pellicules disponible dans l'appareil
     //private int screenshotsTaken = 0; Le nombre de pellicules contenant une photo
+
+    public AudioClip cameraShutter;
+    public AudioSource sfxSource;
     
 
     private void Awake()
@@ -25,6 +28,11 @@ public class ScreenshotHandler : MonoBehaviour
         instance = this;
         myCamera = gameObject.GetComponent<Camera>();
         //eyes.enabled = true;
+    }
+
+    void Start()
+    {
+        sfxSource.clip = cameraShutter;
     }
 
     void Update()
@@ -39,7 +47,12 @@ public class ScreenshotHandler : MonoBehaviour
         //}
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);
+        if (Input.GetKeyDown(KeyCode.Space)){
+        sfxSource.Play();
     }
+    }
+
+    
 
     private void TakeScreenshot(int width, int height)
     {
