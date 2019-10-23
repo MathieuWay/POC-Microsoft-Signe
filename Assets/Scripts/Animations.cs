@@ -19,6 +19,7 @@ public class Animations : MonoBehaviour
             if(isCrouched==false){
                 isCrouched=true;
                 animator.SetBool("isCrouched", true);
+                Debug.Log("bite");
              }
              else{
                 isCrouched=false;
