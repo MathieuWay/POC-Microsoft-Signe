@@ -11,10 +11,12 @@ public class EspritController : MonoBehaviour
   // public Transform Mirage;
     Transform _target;
     NavMeshAgent agent;
+    Transform _mirage;
 
     // Start is called before the first frame update
     void Start()
     {
+        _mirage = PlayerManager.instance.mirage.transform;
         _target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
@@ -23,6 +25,7 @@ public class EspritController : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(_target.position, transform.position);
+        float distance2 = Vector3.Distance(_mirage.position, transform.position);
 
         if(distance <= lookRadius)
         {
@@ -33,6 +36,17 @@ public class EspritController : MonoBehaviour
                 FaceTarget(); 
             }
         }
+
+        if(distance2 <= lookRadius)
+        {
+            agent.SetDestination(_mirage.position);
+
+        }
+        else
+        {
+            agent.SetDestination(_target.position);
+        }
+
     }
 
     void FaceTarget()
