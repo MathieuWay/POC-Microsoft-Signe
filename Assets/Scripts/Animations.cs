@@ -25,8 +25,21 @@ public class Animations : MonoBehaviour
                 animator.SetBool("isCrouched", false);
             }
         }
-
-        
+        if(Input.GetKey(KeyCode.Z)){
+            animator.SetBool("isWalking",true);
+        }
+        else if(Input.GetKey(KeyCode.Q)){
+            animator.SetBool("isWalking",true);
+        }
+        else if(Input.GetKey(KeyCode.S)){
+            animator.SetBool("isWalking",true);
+        }
+        else if(Input.GetKey(KeyCode.D)){
+            animator.SetBool("isWalking",true);
+        }
+        else{
+            animator.SetBool("isWalking",false);
+        }
         
     }
 }

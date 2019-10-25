@@ -8,38 +8,63 @@ public class EspritController : MonoBehaviour
 
     public float lookRadius = 10f;
 
-    Transform target;
+  // public Transform Mirage;
+    Transform _target;
     NavMeshAgent agent;
+    Transform _mirage;
 
     // Start is called before the first frame update
     void Start()
     {
-        target = PlayerManager.instance.player.transform;
+        _mirage = PlayerManager.instance.mirage.transform;
+        _target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(target.position, transform.position);
+        float distance = Vector3.Distance(_target.position, transform.position);
+        float distance2 = Vector3.Distance(_mirage.position, transform.position);
 
         if(distance <= lookRadius)
         {
-            agent.SetDestination(target.position);
+            agent.SetDestination(_target.position);
 
             if(distance <= agent.stoppingDistance)
             {
                 FaceTarget(); 
             }
         }
+
+        if(distance2 <= lookRadius)
+        {
+            agent.SetDestination(_mirage.position);
+
+        }
+        else
+        {
+            agent.SetDestination(_target.position);
+        }
+
     }
 
     void FaceTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (_target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+      
     }
+
+    //void OnTriggerEnter(Collider other)
+   // {
+    //    if (other.tag == "Esprit")
+     //   {
+     //       Debug.Log("istrigger");
+     //       agent.SetDestination(Mirage.position);
+     //   }
+   // }
 
     void OnDrawGizmosSelected()
     {
