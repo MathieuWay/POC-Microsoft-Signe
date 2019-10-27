@@ -14,7 +14,7 @@ public class LidFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && Photo.UIPhoto.Instance().cameraActive) {
             animator.Play("blink");
         }
         

@@ -8,6 +8,7 @@ public class ScreenshotHandler : MonoBehaviour
     private static ScreenshotHandler instance;
     public Camera myCamera;
     public float photoDistance;
+    public bool takePhotoWithCamera;
     //public Camera eyes;
     private bool takeScreenshotOnNextFrame;
     
@@ -37,7 +38,7 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 /*&& Photo.UIPhoto.Instance().cameraActive*/)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
             TakeScreenshot(500, 500);
         //else if (Input.GetKeyDown(KeyCode.Space))
         //{
