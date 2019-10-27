@@ -36,23 +36,23 @@ public class EspritController : MonoBehaviour
                 FaceTarget(); 
             }
         }
-        else
-        {
-            if(distance2 <= lookRadius)
-            {
-                agent.SetDestination(_mirage.position);
-            }
-        }
-
-        //if(distance2 <= lookRadius)
-        //{
-        //    agent.SetDestination(_mirage.position);
-
-        //}
         //else
         //{
-        //   agent.SetDestination(_target.position);
+        //    if(distance2 <= lookRadius)
+        //    {
+        //        agent.SetDestination(_mirage.position);
+        //    }
         //}
+
+        if(distance2 <= lookRadius)
+        {
+            agent.SetDestination(_mirage.position);
+
+        }
+        else
+        {
+           agent.SetDestination(_target.position);
+        }
 
     }
 
