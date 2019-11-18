@@ -14564,7 +14564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myCamera: {fileID: 5401521366825876283}
   photoDistance: 2
-  takePhotoWithCamera: 1
+  takePhotoWithCamera: 0
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 951600007}
 --- !u!1 &1101259135
@@ -26232,6 +26232,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 5401521366825876283}
+    - target: {fileID: 8112050485860169719, guid: 881772163a4deab49a44a5384d7929d2,
+        type: 3}
+      propertyPath: m_PlaneDistance
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4295038072139272309, guid: 881772163a4deab49a44a5384d7929d2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -26454,7 +26459,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5401521367494851610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.46, z: 0}
+  m_LocalPosition: {x: -0.29, y: 2.46, z: 3.16}
   m_LocalScale: {x: 1.14, y: 1.14, z: 1.14}
   m_Children:
   - {fileID: 5401521366825876276}

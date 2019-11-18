@@ -28,10 +28,14 @@ public class Camera_Mirage : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-            _anim.SetBool("Cam", !_anim.GetBool("Cam"));
+        //if (Input.GetKeyDown(KeyCode.E))
+            //_anim.SetBool("Cam", !_anim.GetBool("Cam"));
         //ShowOverheadView();
-        
+        if (Input.GetMouseButtonDown(1))
+            _anim.SetBool("Cam", true);
+        else if(Input.GetMouseButtonUp(1))
+            _anim.SetBool("Cam", false);
+
     }
 
     private void SwitchLayers()

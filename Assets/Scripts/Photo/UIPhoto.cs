@@ -34,6 +34,7 @@ namespace Photo
         private List<StructObjects> screenshots = new List<StructObjects>();
         private GameObject itemVisual;
         private LayerMask layerTemp;
+        private Vector3 mouseDragOrigin;
 
         //Singleton
         private static UIPhoto instance = null;
@@ -57,11 +58,10 @@ namespace Photo
         {
             if (Input.GetKeyDown(KeyCode.F))
                 ToggleUI();
-            else if (Input.GetKeyDown(KeyCode.N))
+            else if (Input.GetKeyDown(KeyCode.E))
             {
-                if(!ui.gameObject.activeSelf)
-                    ToggleUI();
-                VisualItemToggle(currentIndex);
+                if(ui.gameObject.activeSelf)
+                    VisualItemToggle(currentIndex);
             }
 
             if (VisualItemIsVisible())
@@ -189,6 +189,14 @@ namespace Photo
                 visualParent.transform.GetChild(0).Rotate(5, 0, 0);
             if (Input.GetKey(KeyCode.L))
                 visualParent.transform.GetChild(0).Rotate(-5, 0, 0);
+
+            if (Input.GetMouseButtonDown(0))
+                mouseDragOrigin = Input.mousePosition;
+            else if (Input.GetMouseButton(0))
+            {
+                visualParent.transform.GetChild(0).Rotate((Input.mousePosition.y - mouseDragOrigin.y) / 10, (mouseDragOrigin.x - Input.mousePosition.x) / 10, 0, Space.World);
+                mouseDragOrigin = Input.mousePosition;
+            }
         }
 
         private bool VisualItemIsVisible()

@@ -38,7 +38,8 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
+        //if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
+        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
             TakeScreenshot(500, 500);
         //else if (Input.GetKeyDown(KeyCode.Space))
         //{
@@ -48,9 +49,9 @@ public class ScreenshotHandler : MonoBehaviour
         //}
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);
-        if (Input.GetKeyDown(KeyCode.Space)){
-        sfxSource.Play();
-    }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            sfxSource.Play();
     }
 
     
