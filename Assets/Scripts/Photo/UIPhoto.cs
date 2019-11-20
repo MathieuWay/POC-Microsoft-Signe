@@ -97,16 +97,19 @@ namespace Photo
 
         public void DeleteCurrentPhoto()
         {
-            screenshots.RemoveAt(currentIndex);
-            if (currentIndex > 0)
+            if (screenshots.Count > 0)
             {
-                currentIndex--;
+                screenshots.RemoveAt(currentIndex);
+                if (currentIndex > 0)
+                {
+                    currentIndex--;
+                }
+
+                if (VisualItemIsVisible())
+                    VisualItemToggle(0);
+
+                UpdateUI();
             }
-
-            if (VisualItemIsVisible())
-                VisualItemToggle(0);
-
-            UpdateUI();
         }
 
         private void UpdateUI()
