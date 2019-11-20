@@ -21,6 +21,8 @@ public class Albane_fristPersonController : MonoBehaviour
     private Rewind rewind;
     //private bool rewinding = false;
 
+    
+
     private void Start()
     {
         motor = GetComponent<Albane_PlayerMotor>();
@@ -80,4 +82,6 @@ public class Albane_fristPersonController : MonoBehaviour
             rewind.ToggleScene();
         }
     }
+
+    
 }

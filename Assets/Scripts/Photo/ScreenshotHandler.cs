@@ -115,7 +115,7 @@ public class ScreenshotHandler : MonoBehaviour
 
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
-            Debug.Log("Chèvre");
+            
             
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
 
