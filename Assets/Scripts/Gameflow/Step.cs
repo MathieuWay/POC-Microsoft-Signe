@@ -16,7 +16,7 @@ public class Step : MonoBehaviour
         GameflowManager.Instance.steps.Add(this);
     }
 
-    public virtual void update()
+    public virtual void UpdateGameflow()
     {
 
     }

@@ -7,7 +7,7 @@ public class GameflowManager : MonoBehaviour
 {
 
     public List<Step> steps = new List<Step>();
-    private Step currentStep;
+    public Step currentStep;
     public Text explanationText;
 
     private static GameflowManager instance;
@@ -33,7 +33,7 @@ public class GameflowManager : MonoBehaviour
     void Update()
     {
         if (currentStep)
-            currentStep.update();
+            currentStep.UpdateGameflow();
     }
 
     public void CompletedTutorial()
