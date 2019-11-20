@@ -33,7 +33,7 @@ public class ScreenshotHandler : MonoBehaviour
 
     void Start()
     {
-        sfxSource.clip = cameraShutter;
+        //sfxSource.clip = cameraShutter;
     }
 
     void Update()
@@ -42,7 +42,7 @@ public class ScreenshotHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
         {
             TakeScreenshot(500, 500);
-            sfxSource.Play();
+            //sfxSource.Play();
             //else if (Input.GetKeyDown(KeyCode.Space))
             //{
             //Debug.Log(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2));
