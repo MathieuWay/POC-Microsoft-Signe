@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 253645365}
   - component: {fileID: 253645364}
   m_Layer: 0
-  m_Name: 1er Point de passager
+  m_Name: Point de passage 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 253645363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7105d0f4a8be5d24ea1ca1c914e0ae09, type: 3}
+  m_Script: {fileID: 11500000, guid: 070fe70174cb283408fb3e11a7aa30a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   order: 0
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 614555517}
   - component: {fileID: 614555516}
   m_Layer: 5
-  m_Name: TutorialExplaination
+  m_Name: GameflowExplaination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,13 +849,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1058526727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4730b429cd0b8645bf144e0ce7c6f7a, type: 3}
+  m_Script: {fileID: 11500000, guid: e1129ecf84ddd5e4d8ab09d2c2b78554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tutorials:
-  - {fileID: 253645364}
-  - {fileID: 1505706298}
-  - {fileID: 2097481534}
+  steps: []
+  currentStep: {fileID: 0}
   explanationText: {fileID: 614555516}
 --- !u!4 &1058526729
 Transform:
@@ -977,7 +975,7 @@ GameObject:
   - component: {fileID: 1505706299}
   - component: {fileID: 1505706298}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Point de passage 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -992,7 +990,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1505706297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7105d0f4a8be5d24ea1ca1c914e0ae09, type: 3}
+  m_Script: {fileID: 11500000, guid: 070fe70174cb283408fb3e11a7aa30a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   order: 1
@@ -1209,7 +1207,7 @@ GameObject:
   - component: {fileID: 2097481535}
   - component: {fileID: 2097481534}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: Point de passage 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1224,7 +1222,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2097481533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7105d0f4a8be5d24ea1ca1c914e0ae09, type: 3}
+  m_Script: {fileID: 11500000, guid: 070fe70174cb283408fb3e11a7aa30a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   order: 2
@@ -1634,6 +1632,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908404251, guid: 2a0b455e1859da64c830355a43e49203, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26.900024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a0b455e1859da64c830355a43e49203, type: 3}
