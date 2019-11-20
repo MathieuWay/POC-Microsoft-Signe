@@ -67,16 +67,16 @@ public class Albane_fristPersonController : MonoBehaviour
          {
 
          }*/
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             rewind.ReverseScene();
         }
-        else if(Input.GetKeyUp(KeyCode.A))
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
             rewind.ResumeScene();
         }
 
-        if (Input.GetKeyDown(KeyCode.P) && rewind != null)
+        if (Input.GetKeyDown(KeyCode.Space) && rewind != null)
         {
             Debug.Log("toggle scene");
             rewind.ToggleScene();

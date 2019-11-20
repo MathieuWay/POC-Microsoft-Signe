@@ -47,7 +47,7 @@ public class EspritController : MonoBehaviour
         if(distance2 <= lookRadius)
         {
             agent.SetDestination(_mirage.position);
-
+            
         }
         else
         {

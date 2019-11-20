@@ -55,7 +55,7 @@ namespace Photo
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.A))
                 ToggleUI();
             else if (Input.GetKeyDown(KeyCode.N))
             {
