@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LidFX : MonoBehaviour
+public class RotateCanvas : MonoBehaviour
 {
-    public Animator animator;
+    public Transform target;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +16,7 @@ public class LidFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && Photo.UIPhoto.Instance().cameraActive) {
-            animator.Play("blink");
-        }
-        
+       transform.LookAt(target);
     }
 }
+ 

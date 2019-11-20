@@ -40,18 +40,21 @@ public class ScreenshotHandler : MonoBehaviour
     {
         //if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
         if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
+        {
             TakeScreenshot(500, 500);
-        //else if (Input.GetKeyDown(KeyCode.Space))
-        //{
+            sfxSource.Play();
+            //else if (Input.GetKeyDown(KeyCode.Space))
+            //{
             //Debug.Log(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2));
             //if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
-                //Debug.Log(hit.collider.name);
-        //}
+            //Debug.Log(hit.collider.name);
+            //}
+        }
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            sfxSource.Play();
+        
+            
     }
 
     
@@ -112,7 +115,7 @@ public class ScreenshotHandler : MonoBehaviour
 
 
             Photo.UIPhoto.Instance().NewPhoto(tempList, renderResult);
-
+            Debug.Log("Chèvre");
             
             //rawimg.texture = renderResult; Sert à tester en direct sur une raw Image
 
