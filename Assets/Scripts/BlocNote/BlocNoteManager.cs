@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 //using TMPro;
 
 public class BlocNoteManager : MonoBehaviour
 {
-    public Transform debug;
+    public static BlocNoteManager instance;
 
+    public GameObject sentencePrefab;
     public GameObject wordPrefab;
     public GameObject holePrefab;
 
@@ -16,9 +18,9 @@ public class BlocNoteManager : MonoBehaviour
 
     public float interligne;
 
-    private Transform blocNote;
+    public float screenRescaleCoef;
 
-    private float screenRescaleCoef;
+    private Transform blocNote;
 
     private GameObject instanGO;
     private int[] indexChar;
@@ -26,21 +28,31 @@ public class BlocNoteManager : MonoBehaviour
 
     void Start()
     {
+        instance = this;
+
         blocNote = transform.GetChild(0);
 
         screenRescaleCoef = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
-        Debug.LogWarning(screenRescaleCoef);
+        Debug.LogWarning("UI Scale coef : " + screenRescaleCoef);
 
-        addWord("Oui");
-        addWord("Test");
-        addWord("Bananes");
-        addWord("42");
+        AddWord("Oui");
+        AddWord("Phrase");
+        AddWord("Test");
+        AddWord("Bananes");
+        AddWord("Consectetur");
+        AddWord("quis");
+        AddWord("elit");
+        AddWord("Hdzqksldq");
+        AddWord("42");
 
-        //addSentence("Géneralement, les gens sont déstabilisés lorsqu'une _phrase_ ne se termine pas comme il le patate");
-        addSentence("Lorem ipsum dolor sit amet, 'consectetur' adipiscing 'elit'. Proin placerat placerat lectus, at porta tortor hendrerit sed. 'Mauris' id nunc euismod, placerat turpis quis, elementum diam. Sed blandit turpis nisl, laoreet sodales diam dapibus sit amet. Nunc tempor augue erat, vitae dapibus metus mattis ultrices.");
+        AddSentence("Géneralement, les gens sont déstabilisés lorsqu'une _phrase_ ne se termine pas comme il le patate");
+        AddSentence("Lorem ipsum dolor sit amet, _consectetur_ adipiscing _elit_. " +
+            "Proin placerat placerat lectus, at porta tortor hendrerit sed. _Mauris_ id nunc euismod, " +
+            "placerat turpis _quis_, elementum diam. Sed blandit turpis nisl, laoreet _sodales_ diam dapibus sit amet. " +
+            "_Nunc_ tempor augue erat, vitae dapibus metus mattis ultrices. _42_");
     }
 
-    public void addWord(string mot)
+    public void AddWord(string mot)
     {
         instanGO = Instantiate(wordPrefab, words);
         instanGO.name = mot;
@@ -50,16 +62,24 @@ public class BlocNoteManager : MonoBehaviour
             instanGO.transform.localPosition = new Vector2(
                 words.GetChild(words.childCount - 2).localPosition.x,
                 words.GetChild(words.childCount - 2).localPosition.y - words.GetChild(words.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
+
+        instanGO.GetComponent<RectTransform>().sizeDelta = VecAbs(GetCharPos(instanGO.GetComponent<Text>(), mot + "_", mot.Length, 2)) + new Vector2(1, 1);
+        instanGO.GetComponent<BoxCollider2D>().size = instanGO.GetComponent<RectTransform>().sizeDelta;
+        instanGO.GetComponent<BoxCollider2D>().offset = new Vector2(instanGO.GetComponent<BoxCollider2D>().size.x / 2f, -instanGO.GetComponent<BoxCollider2D>().size.y / 2f);
     }
 
-    public void addSentence(string phrase)
+    public void AddSentence(string phrase)
     {
-        indexOffset = 0;
-        instanGO = Instantiate(wordPrefab, sentences);
-        instanGO.name = phrase.Substring(0, 8);
+        instanGO = Instantiate(sentencePrefab, sentences);
+        instanGO.name = phrase.Substring(0, 10);
+        //instanGO.GetComponent<Sentences>().phrase = phrase;
 
-        indexChar = findChar(phrase, '\'').ToArray();
+        if (sentences.childCount > 1)
+            instanGO.transform.localPosition = new Vector2(
+                sentences.GetChild(sentences.childCount - 2).localPosition.x,
+                sentences.GetChild(sentences.childCount - 2).localPosition.y - sentences.GetChild(sentences.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
 
+        indexChar = FindChar(phrase, '_').ToArray();
         
 
         if (indexChar.Length > 0)
@@ -69,40 +89,55 @@ public class BlocNoteManager : MonoBehaviour
 
             Vector3 tempVector;
             GameObject temp;
-
-            //Debug.Log(indexChar.Length);
+            indexOffset = 0;
 
             for (int i = 0; i < indexChar.Length - 2; i += 2)
             {
 
                 temp = Instantiate(holePrefab, instanGO.transform);
-                tempVector = GetCharPos(instanGO.GetComponent<Text>(), indexChar[i] + indexOffset, instanGO.GetComponent<Text>().text + "\'");
-                Debug.Log(tempVector);
+                tempVector = GetCharPos(instanGO.GetComponent<Text>(), instanGO.GetComponent<Text>().text + "\'", indexChar[i] + indexOffset, 0);
+                //Debug.Log(tempVector);
 
                 instanGO.GetComponent<Text>().text += "_____";
                 instanGO.GetComponent<Text>().text += phrase.Substring(indexChar[i + 1] + 1, indexChar[i + 2] - indexChar[i + 1] - 1);
+
+                temp.GetComponent<Hole>().wordIndex = indexChar[i] + indexOffset;
 
                 indexOffset -= indexChar[i + 1] - indexChar[i] + 1;
                 indexOffset += 5;
 
                 temp.transform.localPosition += tempVector;
+                temp.name = phrase.Substring(indexChar[i] + 1, indexChar[i + 1] - indexChar[i] - 1);
+                Debug.Log(indexChar[i] + " " + indexOffset);
             }
 
-
-
             temp = Instantiate(holePrefab, instanGO.transform);
-            tempVector = GetCharPos(instanGO.GetComponent<Text>(), indexChar[indexChar.Length - 2] + indexOffset, instanGO.GetComponent<Text>().text + "\'");
-            Debug.Log(tempVector);
+            tempVector = GetCharPos(instanGO.GetComponent<Text>(), instanGO.GetComponent<Text>().text + "\'", indexChar[indexChar.Length - 2] + indexOffset, 0);
+            //Debug.Log(tempVector);
 
             instanGO.GetComponent<Text>().text += "_____";
             instanGO.GetComponent<Text>().text += phrase.Substring(indexChar[indexChar.Length - 1] + 1, phrase.Length - indexChar[indexChar.Length - 1] - 1);
 
             temp.transform.localPosition += tempVector;
+            temp.name = phrase.Substring(indexChar[indexChar.Length - 2] + 1, indexChar[indexChar.Length - 1] - indexChar[indexChar.Length - 2] - 1);
+            temp.GetComponent<Hole>().wordIndex = indexChar[indexChar.Length - 2] + indexOffset;
         } else
             instanGO.GetComponent<Text>().text = phrase;
+
+
+        instanGO.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            instanGO.GetComponent<RectTransform>().sizeDelta.x, 
+            Mathf.Abs(GetCharPos(instanGO.GetComponent<Text>(), phrase + "_", phrase.Length, 3).y));
     }
 
-    private List<int> findChar(string sentence, char carac)
+    public void FillHole(GameObject sentenceObject, int charIndex, string word)
+    {
+        string sentence = sentenceObject.GetComponent<Text>().text;
+        Debug.Log(sentence.Length + " . " + charIndex + " . " + word.Length + " // " + (sentence.Length - (charIndex + 5 + 5) + charIndex));
+        sentenceObject.GetComponent<Text>().text = sentence.Substring(0, charIndex) + word + sentence.Substring(charIndex + 5, sentence.Length - (charIndex + 5));
+    }
+
+    private List<int> FindChar(string sentence, char carac)
     {
         List<int> indexCarac = new List<int>();
 
@@ -114,11 +149,11 @@ public class BlocNoteManager : MonoBehaviour
 
     }
 
-    private Vector3 GetCharPos(Text textComp, int charIndex, string phrase)
+    private Vector3 GetCharPos(Text textComp, string phrase, int charIndex, int points)
     {
         string text = phrase;
 
-        Debug.Log(charIndex + " // " + text);
+        //Debug.Log(charIndex + " // " + text);
 
         if (charIndex >= text.Length)
             return new Vector3();
@@ -127,11 +162,8 @@ public class BlocNoteManager : MonoBehaviour
 
         Vector2 extents = textComp.gameObject.GetComponent<RectTransform>().rect.size;
         TextGenerationSettings textSettings = textComp.GetGenerationSettings(extents);
-        //textSettings.fontSize = textSettings.fontSize * 10 / 24;
 
         textGen.Populate(text, textSettings);
-
-        //Debug.Log(textComp.GetGenerationSettings(extents).fontSize + " // " + extents + " - " + textSettings.fontSize);
 
         int newLine = text.Substring(0, charIndex).Split('\n').Length - 1;
         int whiteSpace = text.Substring(0, charIndex).Split(' ').Length - 1;
@@ -139,30 +171,17 @@ public class BlocNoteManager : MonoBehaviour
 
         if (indexOfTextQuad < textGen.vertexCount)
         {
-            //Vector3 avgPos = (textGen.verts[indexOfTextQuad].position +
-            //    textGen.verts[indexOfTextQuad + 1].position +
-            //    textGen.verts[indexOfTextQuad + 2].position +
-            //    textGen.verts[indexOfTextQuad + 3].position) /4f;
+            Vector3 avgPos = textGen.verts[indexOfTextQuad + points].position - textGen.verts[0].position;
+            //Vector3 avgPos = new Vector3(textGen.verts[indexOfTextQuad + points].position.x - textGen.verts[0].position.x,
+            //    -textGen.verts[indexOfTextQuad + points].position.y + textGen.verts[0].position.y,
+            //    textGen.verts[indexOfTextQuad + points].position.z - textGen.verts[0].position.z);
 
-            Vector3 avgPos = textGen.verts[indexOfTextQuad].position - textGen.verts[0].position;
+            //Debug.DrawLine(textGen.verts[3].position, textGen.verts[indexOfTextQuad + points].position, Color.blue, 100f);
 
-            //Debug.Log(textGen.verts[indexOfTextQuad].position + " // " + textGen.verts[0].position + " // " + indexOfTextQuad);
-            Debug.DrawLine(debug.position + textGen.verts[3].position, debug.position + textGen.verts[indexOfTextQuad].position, Color.blue, 100f);
+            //for (int i = 0; i < textGen.verts.Count - 1; i++)
+            //    Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
 
-            //avgPos = new Vector2(avgPos.x - textGen.verts[0].position.x, avgPos.y - textGen.verts[0].position.y);
-
-            //Debug.Log(indexOfTextQuad);
-            //print(avgPos);
             //Debug.Log(avgPos);
-            //PrintWorldPos(textComp, avgPos);
-            for (int i = 0; i < textGen.verts.Count - 1; i++)
-            {
-                //Debug.Log(textGen.verts[i].position);
-                //PrintWorldPos(textComp, textGen.verts[i].position);
-                //PrintWorldPos(textComp, textGen.verts[i].position, textGen.verts[i + 1].position);
-                Debug.DrawLine(debug.position + textGen.verts[i].position, debug.position + textGen.verts[i+1].position, Color.magenta, 100f);
-            }
-
             return avgPos * screenRescaleCoef;
         } else
         {
@@ -171,22 +190,8 @@ public class BlocNoteManager : MonoBehaviour
         }
     }
 
-    void PrintWorldPos(Text textComp, Vector3 testPoint)
+    private Vector2 VecAbs(Vector2 vec)
     {
-        Vector3 worldPos = textComp.transform.TransformPoint(testPoint);
-        print(worldPos);
-        new GameObject("point").transform.position = worldPos;
-        Debug.DrawRay(worldPos, Vector3.up, Color.red, 50f);
-        Debug.DrawRay(worldPos, Vector3.up, Color.red);
-    }
-
-    void PrintWorldPos(Text textComp, Vector3 testPoint, Vector3 testPoint2)
-    {
-        Vector3 worldPos = textComp.transform.TransformPoint(testPoint);
-        Vector3 worldPos2 = textComp.transform.TransformPoint(testPoint2);
-        //print(worldPos + " " + worldPos2);
-        new GameObject("point").transform.position = worldPos;
-        new GameObject("point").transform.position = worldPos2;
-        Debug.DrawLine(worldPos, worldPos2, Color.green, 100f);
+        return new Vector2(Mathf.Abs(vec.x), Mathf.Abs(vec.y));
     }
 }
