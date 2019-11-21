@@ -41,7 +41,7 @@ public class Camera_Mirage : MonoBehaviour
     {
         //ShowOverheadView();
 
-        if (Input.GetMouseButtonDown(1) && !Photo.UIPhoto.Instance().isUIDisplayed())
+        if (Input.GetMouseButtonDown(1) && !Photo.UIPhoto.Instance().isUIDisplayed() && Photo.UIPhoto.Instance().hasCamera)
             ToggleCamera();
     }
 

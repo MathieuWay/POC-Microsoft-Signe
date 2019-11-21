@@ -213,7 +213,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &764130444
+--- !u!1 &734299546
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,21 +221,21 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 764130446}
+  - component: {fileID: 734299547}
   m_Layer: 0
-  m_Name: TriggerMirage
+  m_Name: _mirage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &764130446
+--- !u!4 &734299547
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 764130444}
+  m_GameObject: {fileID: 734299546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.79, y: 0.779, z: 21.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -714,6 +714,8 @@ PlayableDirector:
     value: {fileID: 943574173}
   - key: {fileID: 0}
     value: {fileID: 0}
+  - key: {fileID: -7022923529520447119, guid: 65cfc99283b163d41bb72e61a8669a41, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1372645252
@@ -856,7 +858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1248593677}
-  mirage: {fileID: 764130444}
+  mirage: {fileID: 734299546}
 --- !u!4 &1466403699
 Transform:
   m_ObjectHideFlags: 0
@@ -976,6 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookRadius: 5
+  miragepoint: {fileID: 0}
 --- !u!195 &1778408161
 NavMeshAgent:
   m_ObjectHideFlags: 0

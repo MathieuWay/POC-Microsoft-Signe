@@ -40,7 +40,17 @@ public class ScreenshotHandler : MonoBehaviour
     void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
-        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !UIPhoto.Instance().isUIDisplayed())
+        if (!Photo.UIPhoto.Instance().hasCamera)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance) && hit.collider.CompareTag("Camera"))
+                {
+                    Photo.UIPhoto.Instance().hasCamera = true;
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        } else if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !UIPhoto.Instance().isUIDisplayed())
         {
             TakeScreenshot(500, 500);
             //sfxSource.Play();

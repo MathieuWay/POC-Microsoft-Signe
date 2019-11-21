@@ -29,6 +29,8 @@ namespace Photo
         public bool cameraActive;
         public GameObject visualParent;
 
+        public bool hasCamera;
+
         private GameObject ui;
         private int currentIndex = 0;
         private List<StructObjects> screenshots = new List<StructObjects>();
@@ -55,17 +57,20 @@ namespace Photo
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-                ToggleUI();
-            else if (Input.GetKeyDown(KeyCode.N))
+            if (hasCamera)
             {
-                if(!ui.gameObject.activeSelf)
+                if (Input.GetKeyDown(KeyCode.A))
                     ToggleUI();
-                VisualItemToggle(currentIndex);
-            }
+                else if (Input.GetKeyDown(KeyCode.N))
+                {
+                    if (!ui.gameObject.activeSelf)
+                        ToggleUI();
+                    VisualItemToggle(currentIndex);
+                }
 
-            if (VisualItemIsVisible())
-                VisualItemRotation();
+                if (VisualItemIsVisible())
+                    VisualItemRotation();
+            }
         }
 
         public void ToggleUI()
