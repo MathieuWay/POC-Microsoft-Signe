@@ -12,7 +12,7 @@ public class EspritController : MonoBehaviour
     Transform _target;
     NavMeshAgent agent;
     Transform _mirage;
-   public GameObject miragepoint;
+   //public GameObject miragepoint;
 
     // Start is called before the first frame update
     void Start()
