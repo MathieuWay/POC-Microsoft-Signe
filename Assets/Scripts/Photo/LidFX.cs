@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photo;
 
 public class LidFX : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class LidFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && Photo.UIPhoto.Instance().cameraActive) {
+        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && UIPhoto.Instance().cameraActive && !UIPhoto.Instance().isUIDisplayed()) {
             animator.Play("blink");
         }
         

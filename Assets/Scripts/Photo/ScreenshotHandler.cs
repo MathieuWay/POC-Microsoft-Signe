@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photo;
 
 public class ScreenshotHandler : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class ScreenshotHandler : MonoBehaviour
     void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
-        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
+        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !UIPhoto.Instance().isUIDisplayed())
         {
             TakeScreenshot(500, 500);
             //sfxSource.Play();
@@ -52,9 +53,6 @@ public class ScreenshotHandler : MonoBehaviour
         }
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);
-
-        
-            
     }
 
     

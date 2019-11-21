@@ -13,7 +13,18 @@ public class Camera_Mirage : MonoBehaviour
 
     private Animator _anim;
     private PostProcessLayer _postProcLayer;
-    
+
+    //Singleton
+    private static Camera_Mirage instance = null;
+
+    public static Camera_Mirage Instance()
+    {
+        if (instance == null)
+            instance = GameObject.FindObjectOfType<Camera_Mirage>();
+        if (instance == null)
+            Debug.LogError("No Camera_Mirage in the scene");
+        return instance;
+    }
 
     void Start()
     {
@@ -28,14 +39,10 @@ public class Camera_Mirage : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.E))
-            //_anim.SetBool("Cam", !_anim.GetBool("Cam"));
         //ShowOverheadView();
-        if (Input.GetMouseButtonDown(1))
-            _anim.SetBool("Cam", true);
-        else if(Input.GetMouseButtonUp(1))
-            _anim.SetBool("Cam", false);
 
+        if (Input.GetMouseButtonDown(1) && !Photo.UIPhoto.Instance().isUIDisplayed())
+            ToggleCamera();
     }
 
     private void SwitchLayers()
@@ -50,6 +57,20 @@ public class Camera_Mirage : MonoBehaviour
             Photo.UIPhoto.Instance().cameraActive = false;
     }
 
+    public bool GetCamState()
+    {
+        return _anim.GetBool("Cam");
+    }
+
+    public void ToggleCamera()
+    {
+        _anim.SetBool("Cam", !_anim.GetBool("Cam"));
+    }
+
+    public void TogglePostProc()
+    {
+        _postProcLayer.enabled = !_cam.GetComponent<PostProcessLayer>().enabled;
+    }
     /*public void ShowOverheadView()
     {
         _cam.enabled = false;

@@ -70,9 +70,12 @@ namespace Photo
 
         public void ToggleUI()
         {
+            if (Camera_Mirage.Instance().GetCamState())
+            {
+                Camera_Mirage.Instance().TogglePostProc();
+            }
             ui.gameObject.SetActive(!ui.gameObject.activeSelf);
             //Camera.main.cullingMask ^= layerUI;
-
             if (ui.gameObject.activeSelf)
             {
                 layerTemp = Camera.main.cullingMask;
@@ -161,6 +164,11 @@ namespace Photo
                 if (VisualItemIsVisible())
                     VisualItemToggle(currentIndex);
             }
+        }
+
+        public bool isUIDisplayed()
+        {
+            return transform.Find("UIPhoto").gameObject.activeSelf;
         }
 
         #region Visuel de l'item dans la galerie
