@@ -21373,7 +21373,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5401521367494851610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f76434ba3aaf70c44857a0144d3db71c, type: 3}
   m_Name: 
@@ -23730,6 +23730,7 @@ MonoBehaviour:
   words: {fileID: 1460068396}
   sentences: {fileID: 2052013506}
   interligne: 0.2
+  screenRescaleCoef: 0
 --- !u!114 &1929409886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26897,7 +26898,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5401521367494851610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 003e97d216b8dec44a6bced1591b5e5f, type: 3}
   m_Name: 
@@ -26965,7 +26966,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5401521367494851610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fb1d4aa46781a946beee8a3588cff15, type: 3}
   m_Name: 
