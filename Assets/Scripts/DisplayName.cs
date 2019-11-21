@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class DisplayName : MonoBehaviour
 {
+
     public string myString;
     public Text myText;
     public float fadeTime;
     public bool displayInfo;
+    public GameObject SelectionManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,39 +19,44 @@ public class DisplayName : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+
+
+    public void ShowText()
     {
-        FadeText();
+        displayInfo = true;
+        
     }
 
-    void OnTriggerEnter(Collider other)
-        {
-        if (other.CompareTag("Player")){
-            displayInfo = true;
-        }
+    public void HideText()
+    {
+        displayInfo = false;
+        Debug.Log("ours");
 
-        }
-
+    }
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")){
+        if (other.CompareTag("Player"))
+        {
             displayInfo = false;
         }
     }
+    void Update()
+    {
+        FadeText();
+        
+    }
 
-        void FadeText()
+    void FadeText()
+    {
+        if (displayInfo)
         {
-            if(displayInfo)
-            {
-                myText.text = myString;
-                myText.color = Color.Lerp(myText.color, Color.white, fadeTime * Time.deltaTime);
-
-            }
-
-            else
-            {
-                myText.color = Color.Lerp(myText.color, Color.clear, fadeTime * Time.deltaTime);
-            }
+            myText.text = myString;
+            myText.color = Color.Lerp(myText.color, Color.white, fadeTime * Time.deltaTime);
         }
-    
+        else
+        {
+            myText.color = Color.Lerp(myText.color, Color.clear, fadeTime * Time.deltaTime);
+        }
+    }
+
 }

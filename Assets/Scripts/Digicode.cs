@@ -7,6 +7,7 @@ public class Digicode : MonoBehaviour
 {
     [SerializeField] private string selectableTag = "Digicode";
     [SerializeField] private string clearTag = "DigicodeClear";
+    [SerializeField] private string usableTag = "Usable";
     public GameObject selectionné;
     private Transform _selection;
     public int id, selectednumber;
@@ -15,10 +16,7 @@ public class Digicode : MonoBehaviour
 
     private void Start()
     {
-        codeattendu[0] = 1;
-        codeattendu[1] = 4;
-        codeattendu[2] = 8;
-        codeattendu[3] = 6;
+        
     }
 
     void Update()
@@ -27,6 +25,11 @@ public class Digicode : MonoBehaviour
         {
             Debug.Log("Le coffre s'ouvre");
             // mettre l'animation du coffre ici 
+        }
+
+        if(_selection !=null)
+        { 
+
         }
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -71,9 +74,17 @@ public class Digicode : MonoBehaviour
                 selectednumber = 0;
                 Array.Clear(code, 0, code.Length);
                 }
-
-
             }
+            if (selection.CompareTag(usableTag))
+            {
+                 _selection = selection;
+                selectionné = selection.gameObject;
+                DisplayName displayScript = selectionné.GetComponent<DisplayName>();
+                displayScript.ShowText();
+            }
+            
+            
         }
+
     }
 }
