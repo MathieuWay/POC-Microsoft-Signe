@@ -35,9 +35,9 @@ public class BlocNoteManager : MonoBehaviour
         screenRescaleCoef = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         Debug.LogWarning("UI Scale coef : " + screenRescaleCoef);
 
-        AddWord("Oui");
+        AddWord("Sont");
         AddWord("Phrase");
-        AddWord("Test");
+        AddWord("Patate");
         AddWord("Bananes");
         AddWord("Consectetur");
         AddWord("quis");
@@ -45,11 +45,11 @@ public class BlocNoteManager : MonoBehaviour
         AddWord("Hdzqksldq");
         AddWord("42");
 
-        AddSentence("Géneralement, les gens sont déstabilisés lorsqu'une _phrase_ ne se termine pas comme il le patate");
-        AddSentence("Lorem ipsum dolor sit amet, _consectetur_ adipiscing _elit_. " +
-            "Proin placerat placerat lectus, at porta tortor hendrerit sed. _Mauris_ id nunc euismod, " +
-            "placerat turpis _quis_, elementum diam. Sed blandit turpis nisl, laoreet _sodales_ diam dapibus sit amet. " +
-            "_Nunc_ tempor augue erat, vitae dapibus metus mattis ultrices. _42_");
+        AddSentence("Géneralement, les gens _sont_ déstabilisés lorsqu'une _phrase_ ne se termine pas comme il le _patate_");
+        //AddSentence("Lorem ipsum dolor sit amet, _consectetur_ adipiscing _elit_. " +
+        //    "Proin placerat placerat lectus, at porta tortor hendrerit sed. _Mauris_ id nunc euismod, " +
+        //    "placerat turpis _quis_, elementum diam. Sed blandit turpis nisl, laoreet _sodales_ diam dapibus sit amet. " +
+        //    "_Nunc_ tempor augue erat, vitae dapibus metus mattis ultrices. _42_");
     }
 
     public void AddWord(string mot)
@@ -86,6 +86,7 @@ public class BlocNoteManager : MonoBehaviour
         {
             instanGO.GetComponent<Text>().text = "";
             instanGO.GetComponent<Text>().text += phrase.Substring(0, indexChar[0]);
+            instanGO.GetComponent<Sentences>().phrase = phrase;
 
             Vector3 tempVector;
             GameObject temp;
@@ -102,13 +103,14 @@ public class BlocNoteManager : MonoBehaviour
                 instanGO.GetComponent<Text>().text += phrase.Substring(indexChar[i + 1] + 1, indexChar[i + 2] - indexChar[i + 1] - 1);
 
                 temp.GetComponent<Hole>().wordIndex = indexChar[i] + indexOffset;
+                temp.GetComponent<Hole>().holeIndex = i / 2;
 
                 indexOffset -= indexChar[i + 1] - indexChar[i] + 1;
                 indexOffset += 5;
 
                 temp.transform.localPosition += tempVector;
                 temp.name = phrase.Substring(indexChar[i] + 1, indexChar[i + 1] - indexChar[i] - 1);
-                Debug.Log(indexChar[i] + " " + indexOffset);
+                //Debug.Log(indexChar[i] + " " + indexOffset);
             }
 
             temp = Instantiate(holePrefab, instanGO.transform);
@@ -121,6 +123,7 @@ public class BlocNoteManager : MonoBehaviour
             temp.transform.localPosition += tempVector;
             temp.name = phrase.Substring(indexChar[indexChar.Length - 2] + 1, indexChar[indexChar.Length - 1] - indexChar[indexChar.Length - 2] - 1);
             temp.GetComponent<Hole>().wordIndex = indexChar[indexChar.Length - 2] + indexOffset;
+            temp.GetComponent<Hole>().holeIndex = indexChar.Length/2 - 1;
         } else
             instanGO.GetComponent<Text>().text = phrase;
 
@@ -130,14 +133,31 @@ public class BlocNoteManager : MonoBehaviour
             Mathf.Abs(GetCharPos(instanGO.GetComponent<Text>(), phrase + "_", phrase.Length, 3).y));
     }
 
-    public void FillHole(GameObject sentenceObject, int charIndex, string word)
+    //public void FillHole(GameObject sentenceObject, int charIndex, string word)
+    //{
+    //    string sentence = sentenceObject.GetComponent<Text>().text;
+    //    Debug.Log(sentence.Length + " . " + charIndex + " . " + word.Length + " // " + (sentence.Length - (charIndex + 5 + 5) + charIndex));
+    //    sentenceObject.GetComponent<Text>().text = sentence.Substring(0, charIndex) + word + sentence.Substring(charIndex + 5, sentence.Length - (charIndex + 5));
+    //}
+
+    public void PlaceWords()
     {
-        string sentence = sentenceObject.GetComponent<Text>().text;
-        Debug.Log(sentence.Length + " . " + charIndex + " . " + word.Length + " // " + (sentence.Length - (charIndex + 5 + 5) + charIndex));
-        sentenceObject.GetComponent<Text>().text = sentence.Substring(0, charIndex) + word + sentence.Substring(charIndex + 5, sentence.Length - (charIndex + 5));
+        for (int i = 0; i < words.childCount; i++)
+            if (words.GetChild(i).GetComponent<Words>().hole != null)
+            {
+                words.GetChild(i).position = words.GetChild(i).GetComponent<Words>().hole.transform.position;
+                Debug.Log(words.GetChild(i).name);
+            }
     }
 
-    private List<int> FindChar(string sentence, char carac)
+    public void ResetWords()
+    {
+        for (int i = 0; i < words.childCount; i++)
+            if(words.GetChild(i).GetComponent<Words>().hole != null && words.GetChild(i).name.ToLower() != words.GetChild(i).GetComponent<Words>().hole.name.ToLower())
+                words.GetChild(i).GetComponent<Words>().ResetPos();
+    }
+
+    public List<int> FindChar(string sentence, char carac)
     {
         List<int> indexCarac = new List<int>();
 
@@ -149,11 +169,11 @@ public class BlocNoteManager : MonoBehaviour
 
     }
 
-    private Vector3 GetCharPos(Text textComp, string phrase, int charIndex, int points)
+    public Vector3 GetCharPos(Text textComp, string phrase, int charIndex, int points)
     {
         string text = phrase;
 
-        //Debug.Log(charIndex + " // " + text);
+        //Debug.Log(text + " // " + text.Length + " . " + charIndex);
 
         if (charIndex >= text.Length)
             return new Vector3();
@@ -181,7 +201,7 @@ public class BlocNoteManager : MonoBehaviour
             //for (int i = 0; i < textGen.verts.Count - 1; i++)
             //    Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
 
-            //Debug.Log(avgPos);
+            //Debug.Log(avgPos * screenRescaleCoef);
             return avgPos * screenRescaleCoef;
         } else
         {
