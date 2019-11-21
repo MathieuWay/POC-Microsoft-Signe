@@ -39,6 +39,8 @@ public class GameflowManager : MonoBehaviour
     public void CompletedTutorial()
     {
         SetNextTutorial(currentStep.order + 1);
+        if(currentStep != null)
+            currentStep.StartGameflow();
     }
 
     public void SetNextTutorial(int currentOrder)
@@ -53,7 +55,6 @@ public class GameflowManager : MonoBehaviour
         }
         else
         {
-            if (currentStep.explanation != "")
                 explanationText.text = currentStep.explanation;
         }
     }
