@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
         if (numPhoto > -1)
         {
             Photo.UIPhoto.Instance().RemovePhoto(numPhoto);
-            gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }
