@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
-
-    
 {
     public int index;
     public bool isPaused = false;
@@ -15,28 +13,21 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("escape")) { 
-        if (isPaused == false)
+        if (Input.GetKeyDown("escape"))
         {
-            isPaused = true;
-        }
-        else if (isPaused == true)
-        {
-            isPaused = false;
-        }
+            isPaused = !isPaused;
+
+            if (isPaused == true)
+            {
+                pauseMenu.SetActive(true);
+                Time.timeScale = 0f;
+            } else if (isPaused == false)
+            {
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1f;
+            }
         }
 
-        if (isPaused == true)
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0f;
-        }
-
-        if (isPaused == false)
-        {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1f;
-        }
     }
 
     public void Reprendre()
@@ -52,11 +43,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
-
     public void OpenHelp()
     {
         didacticiel.SetActive(true);
     }
+
     public void CloseHelp()
     {
         didacticiel.SetActive(false);

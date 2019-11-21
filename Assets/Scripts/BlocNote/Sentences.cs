@@ -18,7 +18,6 @@ public class Sentences : MonoBehaviour
     {
         text = GetComponent<Text>();
         holeFull = new string[transform.childCount];
-        Debug.LogError("//");
     }
 
     //public void FillWord(string mot)
@@ -64,6 +63,7 @@ public class Sentences : MonoBehaviour
             {
                 temp = transform.GetChild(i / 2).gameObject;
                 tempVector = BlocNoteManager.instance.GetCharPos(gameObject.GetComponent<Text>(), gameObject.GetComponent<Text>().text + "\'", gameObject.GetComponent<Text>().text.Length, 0);
+                tempVector -= new Vector3(0, 5, 0); // ROUSTINE
 
                 temp.transform.localPosition = new Vector2(-temp.transform.parent.GetComponent<RectTransform>().rect.width / 2, 0);
                 temp.transform.localPosition += tempVector;
@@ -87,6 +87,7 @@ public class Sentences : MonoBehaviour
 
             temp = transform.GetChild(indexChar.Length / 2 - 1).gameObject;
             tempVector = BlocNoteManager.instance.GetCharPos(gameObject.GetComponent<Text>(), gameObject.GetComponent<Text>().text + "\'", gameObject.GetComponent<Text>().text.Length, 0);
+            tempVector -= new Vector3(0, 5, 0); // ROUSTINE
 
             temp.transform.localPosition = new Vector2(-temp.transform.parent.GetComponent<RectTransform>().rect.width / 2, 0);
             temp.transform.localPosition += tempVector;
