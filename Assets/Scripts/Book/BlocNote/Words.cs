@@ -52,7 +52,7 @@ public class Words : MonoBehaviour
     void OnMouseDrag()
     {
         //Debug.Log("Dragging " + (Vector3)((Vector2)Input.mousePosition - mousePosClick));
-        transform.localPosition += (Vector3)((Vector2)Input.mousePosition - mousePosClick) * BlocNoteManager.instance.screenRescaleCoef;
+        transform.localPosition += (Vector3)((Vector2)Input.mousePosition - mousePosClick) * BookManager.instance.screenRescaleCoef;
         mousePosClick = Input.mousePosition;
     }
 

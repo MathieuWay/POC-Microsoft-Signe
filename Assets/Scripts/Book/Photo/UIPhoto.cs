@@ -5,12 +5,12 @@ using UnityEngine.UI;
 namespace Photo
 {
     #region Structures
-    public struct StructObjects
+    public struct photo
     {
         public GameObject[] listObjects;
         public Texture2D render;
 
-        public StructObjects(List<GameObject> photos, Texture2D texture)
+        public photo(List<GameObject> photos, Texture2D texture)
         {
             listObjects = new GameObject[photos.Count];
             photos.CopyTo(listObjects, 0);
@@ -30,10 +30,20 @@ namespace Photo
         public bool cameraActive;
         public GameObject visualParent;
 
+        public Transform leftPage;
+        public Transform rightPage;
+
+        private Image[] photos;
+        private Color emptyPhotoColor;
+
+        private int photoNumberInPage;
+
         public bool hasCamera;
 
         private int currentIndex = 0;
-        private List<StructObjects> screenshots = new List<StructObjects>();
+        private int currentPage = 0;
+
+        private List<photo> screenshots = new List<photo>();
         private GameObject itemVisual;
         private LayerMask layerTemp;
 
@@ -49,7 +59,23 @@ namespace Photo
             return instance;
         }
 
-        private void Update()
+        void Start()
+        {
+            photoNumberInPage = leftPage.childCount + rightPage.childCount;
+
+            photos = new Image[photoNumberInPage];
+
+            for (int i = 0; i < leftPage.childCount; i++)
+                photos[i] = leftPage.GetChild(i).GetComponent<Image>();
+
+            for (int i = 0; i < rightPage.childCount; i++)
+                photos[i + leftPage.childCount] = leftPage.GetChild(i).GetComponent<Image>();
+
+            emptyPhotoColor = photos[0].color;
+
+        }
+
+        void Update()
         {
             if (Input.GetKeyDown(KeyCode.N) && ui.gameObject.activeSelf)
                 VisualItemToggle(currentIndex);
@@ -60,35 +86,32 @@ namespace Photo
 
         public void ToggleUI()
         {
-            if (hasCamera)
+            if (Camera_Mirage.Instance().GetCamState())
             {
-                if (Camera_Mirage.Instance().GetCamState())
-                {
-                    Camera_Mirage.Instance().TogglePostProc();
-                }
-
-                ui.gameObject.SetActive(!ui.gameObject.activeSelf);
-                //Camera.main.cullingMask ^= layerUI;
-                if (ui.gameObject.activeSelf)
-                {
-                    layerTemp = Camera.main.cullingMask;
-                    Camera.main.cullingMask = layerUI;
-                    Time.timeScale = 0;
-                }
-                else
-                {
-                    Camera.main.cullingMask = layerTemp;
-                    Time.timeScale = 1;
-                }
-
-                if (VisualItemIsVisible())
-                    VisualItemToggle(0);
+                Camera_Mirage.Instance().TogglePostProc();
             }
+
+            ui.gameObject.SetActive(!ui.gameObject.activeSelf);
+            //Camera.main.cullingMask ^= layerUI;
+            if (ui.gameObject.activeSelf)
+            {
+                layerTemp = Camera.main.cullingMask;
+                Camera.main.cullingMask = layerUI;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Camera.main.cullingMask = layerTemp;
+                Time.timeScale = 1;
+            }
+
+            if (VisualItemIsVisible())
+                VisualItemToggle(0);
         }
 
         public void NewPhoto(List<GameObject> list, Texture2D photo)
         {
-            screenshots.Add(new StructObjects(list, photo));
+            screenshots.Add(new photo(list, photo));
             currentIndex = screenshots.Count - 1;
             UpdateUI();
         }
@@ -129,6 +152,7 @@ namespace Photo
         {
             Texture2D tex = screenshots[index].render;
             imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
             if (screenshots.Count > 1)
             {
                 previousButton.SetActive(true);
@@ -161,9 +185,34 @@ namespace Photo
             }
         }
 
+        public void LoadPhotos(int page)
+        {
+            Texture2D tex;
+
+            for (int i = 0; i < photoNumberInPage; i++)
+            {
+                if (i + photoNumberInPage * page < screenshots.Count)
+                {
+                    tex = screenshots[i + photoNumberInPage * page].render;
+
+                    photos[i].sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                    photos[i].color = Color.clear;
+                } else
+                {
+                    photos[i].sprite = null;
+                    photos[i].color = emptyPhotoColor;
+                }
+            }
+        }
+
+        public void SelectPhoto(int index)
+        {
+            currentIndex = index + photoNumberInPage * currentPage;
+        }
+
         public bool isUIDisplayed()
         {
-            return transform.Find("UIPhoto").gameObject.activeSelf;
+            return ui.gameObject.activeSelf;
         }
 
         #region Visuel de l'item dans la galerie

@@ -21,8 +21,6 @@ public class BlocNoteManager : MonoBehaviour
 
     public float interligne;
 
-    public float screenRescaleCoef;
-
 
     private LayerMask layerTemp;
 
@@ -35,9 +33,6 @@ public class BlocNoteManager : MonoBehaviour
         instance = this;
 
         //blocNote = transform.GetChild(0);
-
-        screenRescaleCoef = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
-        Debug.LogWarning("UI Scale coef : " + screenRescaleCoef);
 
         //AddWord("Sont");
         //AddWord("Phrase");
@@ -246,7 +241,7 @@ public class BlocNoteManager : MonoBehaviour
 
 
             //Debug.Log(avgPos * screenRescaleCoef);
-            return avgPos * screenRescaleCoef;
+            return avgPos * BookManager.instance.screenRescaleCoef;
         } else
         {
             //Debug.LogError("Out of text bound : " + textGen.vertexCount + " . " + indexOfTextQuad + " . " + charIndex + " . " + whiteSpace);
