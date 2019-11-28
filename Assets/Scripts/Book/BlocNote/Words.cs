@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Words : MonoBehaviour
 {
+    public LayerMask holeLayer;
     public GameObject hole;
 
     private Vector3 posIni;
@@ -58,7 +59,7 @@ public class Words : MonoBehaviour
     void OnMouseUp()
     {
         pos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x / 8f, transform.position.y - GetComponent<BoxCollider>().size.y / 8f, transform.position.z);
-        hit = Physics.OverlapBox(pos, GetComponent<BoxCollider>().size / 8f, Quaternion.identity);
+        hit = Physics.OverlapBox(pos, GetComponent<BoxCollider>().size / 8f, Quaternion.identity, holeLayer);
         
         //Debug.DrawLine(transform.position, transform.position + GetComponent<BoxCollider>().size / 4f, Color.red, 100f);
 

@@ -21,6 +21,7 @@ namespace Photo
 
     public class UIPhoto : MonoBehaviour
     {
+        public Transform ui;
         public LayerMask layerUI;
         public GameObject textNoPhoto;
         public Image imageDisplayed;
@@ -31,7 +32,6 @@ namespace Photo
 
         public bool hasCamera;
 
-        private GameObject ui;
         private int currentIndex = 0;
         private List<StructObjects> screenshots = new List<StructObjects>();
         private GameObject itemVisual;
@@ -49,51 +49,41 @@ namespace Photo
             return instance;
         }
 
-        private void Start()
-        {
-            ui = transform.GetChild(0).gameObject;
-        }
-
-
         private void Update()
         {
-            if (hasCamera)
-            {
-                if (Input.GetKeyDown(KeyCode.A))
-                    ToggleUI();
-                else if (Input.GetKeyDown(KeyCode.N))
-                {
-                    if (!ui.gameObject.activeSelf)
-                        ToggleUI();
-                    VisualItemToggle(currentIndex);
-                }
+            if (Input.GetKeyDown(KeyCode.N) && ui.gameObject.activeSelf)
+                VisualItemToggle(currentIndex);
 
-                if (VisualItemIsVisible())
-                    VisualItemRotation();
-            }
+            if (VisualItemIsVisible())
+                VisualItemRotation();
         }
 
         public void ToggleUI()
         {
-            if (Camera_Mirage.Instance().GetCamState())
+            if (hasCamera)
             {
-                Camera_Mirage.Instance().TogglePostProc();
-            }
-            ui.gameObject.SetActive(!ui.gameObject.activeSelf);
-            //Camera.main.cullingMask ^= layerUI;
-            if (ui.gameObject.activeSelf)
-            {
-                layerTemp = Camera.main.cullingMask;
-                Camera.main.cullingMask = layerUI;
-                Time.timeScale = 0;
-            } else
-            {
-                Camera.main.cullingMask = layerTemp;
-                Time.timeScale = 1;
-            }
+                if (Camera_Mirage.Instance().GetCamState())
+                {
+                    Camera_Mirage.Instance().TogglePostProc();
+                }
 
-            if (VisualItemIsVisible())
-                VisualItemToggle(0);
+                ui.gameObject.SetActive(!ui.gameObject.activeSelf);
+                //Camera.main.cullingMask ^= layerUI;
+                if (ui.gameObject.activeSelf)
+                {
+                    layerTemp = Camera.main.cullingMask;
+                    Camera.main.cullingMask = layerUI;
+                    Time.timeScale = 0;
+                }
+                else
+                {
+                    Camera.main.cullingMask = layerTemp;
+                    Time.timeScale = 1;
+                }
+
+                if (VisualItemIsVisible())
+                    VisualItemToggle(0);
+            }
         }
 
         public void NewPhoto(List<GameObject> list, Texture2D photo)

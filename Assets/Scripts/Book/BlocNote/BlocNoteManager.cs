@@ -9,6 +9,7 @@ public class BlocNoteManager : MonoBehaviour
 {
     public static BlocNoteManager instance;
 
+    public Transform blocNote;
     public LayerMask layerUI;
 
     public GameObject sentencePrefab;
@@ -22,7 +23,6 @@ public class BlocNoteManager : MonoBehaviour
 
     public float screenRescaleCoef;
 
-    private Transform blocNote;
 
     private LayerMask layerTemp;
 
@@ -34,7 +34,7 @@ public class BlocNoteManager : MonoBehaviour
     {
         instance = this;
 
-        blocNote = transform.GetChild(0);
+        //blocNote = transform.GetChild(0);
 
         screenRescaleCoef = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         Debug.LogWarning("UI Scale coef : " + screenRescaleCoef);
@@ -69,12 +69,6 @@ public class BlocNoteManager : MonoBehaviour
             "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché dans le _pot de fleur_ dans le couloir.");
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-            ToggleBlocNote();
-    }
-
     public void ToggleBlocNote()
     {
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
@@ -84,7 +78,6 @@ public class BlocNoteManager : MonoBehaviour
             layerTemp = Camera.main.cullingMask;
             Camera.main.cullingMask = layerUI;
             Time.timeScale = 0;
-            Debug.Log(Time.timeScale);
         }
         else
         {
@@ -192,7 +185,7 @@ public class BlocNoteManager : MonoBehaviour
             if (words.GetChild(i).GetComponent<Words>().hole != null)
             {
                 words.GetChild(i).position = words.GetChild(i).GetComponent<Words>().hole.transform.position;
-                Debug.Log(words.GetChild(i).name);
+                //Debug.Log(words.GetChild(i).name);
             }
     }
 
@@ -219,7 +212,7 @@ public class BlocNoteManager : MonoBehaviour
     {
         string text = phrase;
 
-        Debug.Log(text + " // " + text.Length + " . " + charIndex);
+        //Debug.Log(text + " // " + text.Length + " . " + charIndex);
 
         if (charIndex >= text.Length)
         {
@@ -256,7 +249,7 @@ public class BlocNoteManager : MonoBehaviour
             return avgPos * screenRescaleCoef;
         } else
         {
-            Debug.LogError("Out of text bound : " + textGen.vertexCount + " . " + indexOfTextQuad + " . " + charIndex + " . " + whiteSpace);
+            //Debug.LogError("Out of text bound : " + textGen.vertexCount + " . " + indexOfTextQuad + " . " + charIndex + " . " + whiteSpace);
             return new Vector3();
         }
     }

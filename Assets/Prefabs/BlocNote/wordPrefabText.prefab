@@ -92,6 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55fb90f729f54140a475bfa0537209c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holeLayer:
+    serializedVersion: 2
+    m_Bits: 32
   hole: {fileID: 0}
 --- !u!65 &8255873911056075704
 BoxCollider:
