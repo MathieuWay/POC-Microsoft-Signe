@@ -38,7 +38,7 @@ public class Words : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.LogWarning(name);
+        //Debug.LogWarning(name);
         mousePosClick = Input.mousePosition;
 
         if(hole != null)
@@ -66,11 +66,11 @@ public class Words : MonoBehaviour
 
         for (int i = 0; i < hit.Length; i++)
         {
-            Debug.Log(hit[i].gameObject.name);
+            //Debug.Log(hit[i].gameObject.name);
 
             if (hit[i].transform.parent != transform.parent)
             {
-                Debug.Log("Well Played ! " + name + " // " + hit[i].name);
+                //Debug.Log("Well Played ! " + name + " // " + hit[i].name);
 
                 hole = hit[i].gameObject;
                 transform.position = hit[i].transform.position;

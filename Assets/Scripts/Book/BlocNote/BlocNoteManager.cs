@@ -64,6 +64,12 @@ public class BlocNoteManager : MonoBehaviour
             "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché dans le _pot de fleur_ dans le couloir.");
     }
 
+    public void SetActive(bool state)
+    {
+        if (blocNote.gameObject.activeSelf != state)
+            blocNote.gameObject.SetActive(state);
+    }
+
     public void ToggleBlocNote()
     {
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
@@ -222,8 +228,8 @@ public class BlocNoteManager : MonoBehaviour
 
         textGen.Populate(text, textSettings);
 
-        for (int i = 0; i < textGen.verts.Count - 1; i++)
-            Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
+        //for (int i = 0; i < textGen.verts.Count - 1; i++)
+            //Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
 
         int newLine = text.Substring(0, charIndex).Split('\n').Length - 1;
         int whiteSpace = text.Substring(0, charIndex).Split(' ').Length - 1;
@@ -237,7 +243,7 @@ public class BlocNoteManager : MonoBehaviour
             //    -textGen.verts[indexOfTextQuad + points].position.y + textGen.verts[0].position.y,
             //    textGen.verts[indexOfTextQuad + points].position.z - textGen.verts[0].position.z);
 
-            Debug.DrawLine(textGen.verts[3].position, textGen.verts[indexOfTextQuad + points].position, Color.blue, 100f);
+            //Debug.DrawLine(textGen.verts[3].position, textGen.verts[indexOfTextQuad + points].position, Color.blue, 100f);
 
 
             //Debug.Log(avgPos * screenRescaleCoef);

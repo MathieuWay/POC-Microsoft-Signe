@@ -10,8 +10,11 @@ public class ScreenshotHandler : MonoBehaviour
     public Camera myCamera;
     public float photoDistance;
     public bool takePhotoWithCamera;
+    public bool hasCamera;
     //public Camera eyes;
+
     private bool takeScreenshotOnNextFrame;
+
     
     //public RawImage rawimg; Sert à voir en temps réel si le système marche
 
@@ -40,17 +43,17 @@ public class ScreenshotHandler : MonoBehaviour
     void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale > 0 && (Photo.UIPhoto.Instance().cameraActive || !takePhotoWithCamera))
-        if (!Photo.UIPhoto.Instance().hasCamera)
+        if (!BookManager.instance.hasCamera)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance) && hit.collider.CompareTag("Camera"))
                 {
-                    Photo.UIPhoto.Instance().hasCamera = true;
+                    BookManager.instance.hasCamera = true;
                     Destroy(hit.collider.gameObject);
                 }
             }
-        } else if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !UIPhoto.Instance().isUIDisplayed())
+        } else if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !BookManager.instance.isActive)
         {
             TakeScreenshot(500, 500);
             //sfxSource.Play();
