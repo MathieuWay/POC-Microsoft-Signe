@@ -58,9 +58,7 @@ public class BookManager : MonoBehaviour
         book.SetActive(isActive);
 
         if (Camera_Mirage.Instance().GetCamState())
-        {
             Camera_Mirage.Instance().TogglePostProc();
-        }
 
         if (isActive)
         {
@@ -74,7 +72,10 @@ public class BookManager : MonoBehaviour
         }
 
         if (UIPhoto.isUIDisplayed())
+        {
             UIPhoto.LoadPhotos(UIPhoto.GetCurrentPage());
+            UIPhoto.ChangePage(0);
+        }
     }
 
     public void ChangePage(int page)
@@ -84,6 +85,7 @@ public class BookManager : MonoBehaviour
             case 0: // Photos
                 UIPhoto.SetActive(true);
                 blocNote.SetActive(false);
+                UIPhoto.DeselectPhoto();
                 //UIPhoto.LoadPhotos();
                 break;
             case 1: // BlocNote

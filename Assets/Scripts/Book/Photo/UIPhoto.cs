@@ -31,23 +31,29 @@ namespace Photo
     {
         public Transform ui;
         public LayerMask layerUI;
-        public GameObject textNoPhoto;
-        public Image imageDisplayed;
-        public GameObject previousButton;
-        public GameObject nextButton;
+        //public GameObject textNoPhoto;
+        //public Image imageDisplayed;
+        public Button previousButton;
+        public Button nextButton;
+        public Text leftPageNum;
+        public Text rightPageNum;
+        public Button useButton;
+        public Button inspectButton;
+        public Button deleteButton;
+
         public bool cameraActive;
         public GameObject visualParent;
 
         public List<Transform> page;
+        public Transform selection;
 
-        private Image[] photos;
-        private Color emptyPhotoColor;
+        private GameObject[] photos;
 
         private int photoNumberInPage;
 
         //public bool hasCamera;
 
-        private int currentIndex = 0;
+        public int currentIndex = -1;
         private int currentPage = 0;
 
         private List<photo> screenshots = new List<photo>();
@@ -73,7 +79,7 @@ namespace Photo
             for (int i = 0; i < page.Count; i++)
                 photoNumberInPage += page[i].childCount;
 
-            photos = new Image[photoNumberInPage];
+            photos = new GameObject[photoNumberInPage];
 
             // Charge les photo dans l'array "photos"
             int j = 0;
@@ -81,7 +87,7 @@ namespace Photo
 
             for (int i = 0; i < photos.Length; i++)
             {
-                photos[i] = page[j].GetChild(g).GetComponent<Image>();
+                photos[i] = page[j].GetChild(g).gameObject;
 
                 g++;
                 if (g >= page[j].childCount)
@@ -91,7 +97,6 @@ namespace Photo
                 }
             }
 
-            emptyPhotoColor = photos[0].color;
         }
 
         void Update()
@@ -110,7 +115,6 @@ namespace Photo
 
             if (state == true)
                 LoadPhotos(currentPage);
-
         }
 
         public void ToggleUI()
@@ -141,8 +145,6 @@ namespace Photo
         public void NewPhoto(List<GameObject> list, Texture2D photo)
         {
             screenshots.Add(new photo(list, photo));
-            //currentIndex = screenshots.Count - 1;
-            //UpdateUI();
         }
 
         //public void DeleteCurrentPhoto()
@@ -201,37 +203,106 @@ namespace Photo
 
         public void LoadPhotos(int page)
         {
-            //Texture2D tex;
-
             for (int i = 0; i < photoNumberInPage; i++)
             {
                 if (i + photoNumberInPage * page < screenshots.Count)
                 {
-                    //tex = screenshots[i + photoNumberInPage * page].render;
-
-                    //photos[i].sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-                    photos[i].sprite = screenshots[i + photoNumberInPage * page].sprite;
-                    photos[i].color = Color.white;
+                    photos[i].GetComponent<Image>().sprite = screenshots[i + photoNumberInPage * page].sprite;
+                    photos[i].GetComponent<Button>().interactable = true;
                 } else
                 {
-                    photos[i].sprite = null;
-                    photos[i].color = emptyPhotoColor;
+                    photos[i].GetComponent<Image>().sprite = null;
+                    photos[i].GetComponent<Button>().interactable = false;
                 }
             }
+
+            VerifyArrows();
+            VerifyButtons();
         }
 
         public void ChangePage(int page)
         {
             if (currentPage + page >= 0)
-            {
                 currentPage += page;
-                LoadPhotos(currentPage);
+            else
+                currentPage = 0;
+
+            leftPageNum.text = (currentPage * 2 + 1).ToString();
+            rightPageNum.text = (currentPage * 2 + 2).ToString();
+
+            DeselectPhoto();
+            LoadPhotos(currentPage);
+        }
+
+        public void VerifyArrows()
+        {
+            if (currentPage > 0)
+                previousButton.interactable = true;
+            else
+                previousButton.interactable = false;
+
+            if (Mathf.Floor((screenshots.Count - 1) / (float)photoNumberInPage) > currentPage)
+                nextButton.interactable = true;
+            else
+                nextButton.interactable = false;
+        }
+
+        public void VerifyButtons()
+        {
+            if (indexInPage(currentIndex))
+            {
+                useButton.interactable = true;
+                inspectButton.interactable = true;
+                deleteButton.interactable = true;
+
+                useButton.transform.GetChild(0).gameObject.SetActive(true);
+                inspectButton.transform.GetChild(0).gameObject.SetActive(true);
+                deleteButton.transform.GetChild(0).gameObject.SetActive(true);
+            } else
+            {
+                useButton.interactable = false;
+                inspectButton.interactable = false;
+                deleteButton.interactable = false;
+
+                useButton.transform.GetChild(0).gameObject.SetActive(false);
+                inspectButton.transform.GetChild(0).gameObject.SetActive(false);
+                deleteButton.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
 
         public void SelectPhoto(int index)
         {
             currentIndex = index + photoNumberInPage * currentPage;
+            selection.position = photos[index].transform.position;
+            selection.GetComponent<CircleSelection>().ChangeCircle();
+            selection.gameObject.SetActive(true);
+            VerifyButtons();
+        }
+
+        public void DeselectPhoto()
+        {
+            currentIndex = -1;
+            selection.gameObject.SetActive(false);
+        }
+
+        public void DeleteSelectedPhoto()
+        {
+            screenshots.RemoveAt(currentIndex);
+            DeselectPhoto();
+            LoadPhotos(currentPage);
+        }
+
+        public void VisualItemSelectedPhoto()
+        {
+            VisualItemToggle(currentIndex);
+        }
+
+        private bool indexInPage(int index)
+        {
+            if (Mathf.Floor(index / (float)photoNumberInPage) == currentPage)
+                return true;
+
+            return false;
         }
 
         #region Visuel de l'item dans la galerie
@@ -239,8 +310,7 @@ namespace Photo
         public void VisualItemToggle(int index)
         {
             if (VisualItemIsVisible())
-                for (int i = 0; i < visualParent.transform.childCount; i++)
-                    Destroy(visualParent.transform.GetChild(i).gameObject);
+                VisualItemOff();
             else if (screenshots[index].listObjects.Length > 0)
             {
                 itemVisual = Instantiate(screenshots[index].listObjects[0], visualParent.transform);
@@ -263,6 +333,12 @@ namespace Photo
                 visualParent.transform.GetChild(0).Rotate(5, 0, 0);
             if (Input.GetKey(KeyCode.L))
                 visualParent.transform.GetChild(0).Rotate(-5, 0, 0);
+        }
+
+        public void VisualItemOff()
+        {
+            for (int i = 0; i < visualParent.transform.childCount; i++)
+                Destroy(visualParent.transform.GetChild(i).gameObject);
         }
 
         private bool VisualItemIsVisible()
@@ -310,8 +386,6 @@ namespace Photo
         public void RemovePhoto(int i)
         {
             screenshots.RemoveAt(i);
-            if (currentIndex == i)
-                currentIndex--;
 
             LoadPhotos(currentPage);
         }
