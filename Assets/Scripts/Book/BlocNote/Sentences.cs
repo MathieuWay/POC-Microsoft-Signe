@@ -120,7 +120,7 @@ public class Sentences : MonoBehaviour
         for (int i = 0; i < holeFull.Length; i++)
             if (holeFull[i].ToLower() != transform.GetChild(i).name.ToLower())
             {
-                BlocNoteManager.instance.ResetWords();
+                BlocNoteManager.instance.VerifyWords();
                 return;
             }
 

@@ -31,8 +31,8 @@ namespace Photo
     {
         public Transform ui;
         public LayerMask layerUI;
-        //public GameObject textNoPhoto;
-        //public Image imageDisplayed;
+
+        // Graph & button
         public Button previousButton;
         public Button nextButton;
         public Text leftPageNum;
@@ -41,25 +41,32 @@ namespace Photo
         public Button inspectButton;
         public Button deleteButton;
 
-        public bool cameraActive;
-        public GameObject visualParent;
-
         public List<Transform> page;
+
         public Transform selection;
 
-        private GameObject[] photos;
+        // Inspect
+        public GameObject inspectParent;
+        public GameObject visualParent;
 
-        private int photoNumberInPage;
+        // Use photo
+        public int usePhoto = -1;
+        public Image equipedPhoto;
 
-        //public bool hasCamera;
+        public bool cameraActive;
 
+        // Current
         public int currentIndex = -1;
         private int currentPage = 0;
+
+        private GameObject[] photos; // Array contenant tous les boutons "photos"
+        private int photoNumberInPage;
 
         private List<photo> screenshots = new List<photo>();
         private GameObject itemVisual;
         private LayerMask layerTemp;
 
+        #region Singleton
         //Singleton
         private static UIPhoto instance = null;
 
@@ -71,6 +78,7 @@ namespace Photo
                 Debug.LogError("No UIPhoto in the scene");
             return instance;
         }
+        #endregion
 
         void Start()
         {
@@ -96,14 +104,10 @@ namespace Photo
                     g = 0;
                 }
             }
-
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.N) && ui.gameObject.activeSelf)
-                VisualItemToggle(currentIndex);
-
             if (VisualItemIsVisible())
                 VisualItemRotation();
         }
@@ -147,68 +151,18 @@ namespace Photo
             screenshots.Add(new photo(list, photo));
         }
 
-        //public void DeleteCurrentPhoto()
-        //{
-        //    if (screenshots.Count > 0)
-        //    {
-        //        screenshots.RemoveAt(currentIndex);
-        //        if (currentIndex > 0)
-        //        {
-        //            currentIndex--;
-        //        }
-
-        //        if (VisualItemIsVisible())
-        //            VisualItemToggle(0);
-
-        //        LoadPhotos(currentPage);
-        //    }
-        //}
-
-        //private void LoadIndexToImageDisplayed(int index)
-        //{
-        //    Texture2D tex = screenshots[index].render;
-        //    imageDisplayed.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-        //    if (screenshots.Count > 1)
-        //    {
-        //        previousButton.SetActive(true);
-        //        nextButton.SetActive(true);
-        //        if (index == 0 || index == screenshots.Count - 1)
-        //        {
-        //            if (index == 0)
-        //                //TODO disable Left button
-        //                previousButton.SetActive(false);
-        //            else
-        //                //TODO enable Left button
-        //                nextButton.SetActive(false);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        previousButton.SetActive(false);
-        //        nextButton.SetActive(false);
-        //    }
-        //}
-
-        //public void ChangeFrame(int direction)
-        //{
-        //    if (currentIndex + direction >= 0 && currentIndex + direction < screenshots.Count)
-        //    {
-        //        currentIndex += direction;
-        //        LoadIndexToImageDisplayed(currentIndex);
-        //        if (VisualItemIsVisible())
-        //            VisualItemToggle(currentIndex);
-        //    }
-        //}
-
         public void LoadPhotos(int page)
         {
             for (int i = 0; i < photoNumberInPage; i++)
             {
                 if (i + photoNumberInPage * page < screenshots.Count)
                 {
+                    if (i + photoNumberInPage * page != usePhoto)
+                        photos[i].GetComponent<Button>().interactable = true;
+                    else
+                        photos[i].GetComponent<Button>().interactable = false;
+
                     photos[i].GetComponent<Image>().sprite = screenshots[i + photoNumberInPage * page].sprite;
-                    photos[i].GetComponent<Button>().interactable = true;
                 } else
                 {
                     photos[i].GetComponent<Image>().sprite = null;
@@ -252,12 +206,18 @@ namespace Photo
             if (indexInPage(currentIndex))
             {
                 useButton.interactable = true;
-                inspectButton.interactable = true;
                 deleteButton.interactable = true;
 
                 useButton.transform.GetChild(0).gameObject.SetActive(true);
-                inspectButton.transform.GetChild(0).gameObject.SetActive(true);
                 deleteButton.transform.GetChild(0).gameObject.SetActive(true);
+                if (screenshots[currentIndex].listObjects.Length > 0)
+                {
+                    inspectButton.interactable = true;
+                    inspectButton.transform.GetChild(0).gameObject.SetActive(true);
+                } else {
+                    inspectButton.interactable = false;
+                    inspectButton.transform.GetChild(0).gameObject.SetActive(false);
+                }
             } else
             {
                 useButton.interactable = false;
@@ -279,6 +239,8 @@ namespace Photo
             VerifyButtons();
         }
 
+        #region Fonctions des boutons
+
         public void DeselectPhoto()
         {
             currentIndex = -1;
@@ -287,8 +249,24 @@ namespace Photo
 
         public void DeleteSelectedPhoto()
         {
-            screenshots.RemoveAt(currentIndex);
+            RemovePhoto(currentIndex);
+        }
+
+        public void EquipPhoto()
+        {
+            usePhoto = currentIndex;
+
+            if (equipedPhoto != null)
+            {
+                equipedPhoto.sprite = screenshots[usePhoto].sprite;
+
+                equipedPhoto.gameObject.SetActive(true);
+
+                //StartCoroutine(GoTo(equipedPhoto.transform, photos[usePhoto % photoNumberInPage].transform, equipedPhoto.transform));
+            }
+
             DeselectPhoto();
+            //photos[usePhoto].GetComponent<Button>().interactable = false;
             LoadPhotos(currentPage);
         }
 
@@ -297,13 +275,7 @@ namespace Photo
             VisualItemToggle(currentIndex);
         }
 
-        private bool indexInPage(int index)
-        {
-            if (Mathf.Floor(index / (float)photoNumberInPage) == currentPage)
-                return true;
-
-            return false;
-        }
+        #endregion
 
         #region Visuel de l'item dans la galerie
 
@@ -315,23 +287,26 @@ namespace Photo
             {
                 itemVisual = Instantiate(screenshots[index].listObjects[0], visualParent.transform);
                 //itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
-                itemVisual.transform.localPosition = new Vector3(0, 0, -300);
-                itemVisual.transform.localScale = new Vector3(itemVisual.transform.localScale.x * 600, itemVisual.transform.localScale.y * 600, itemVisual.transform.localScale.z * 600);
+                itemVisual.transform.localPosition = new Vector3(0, 0, -350);
+                itemVisual.transform.localScale = RealScale(screenshots[index].listObjects[0].transform) * 3f;
+                //itemVisual.transform.localScale = new Vector3(itemVisual.transform.localScale.x * 600, itemVisual.transform.localScale.y * 600, itemVisual.transform.localScale.z * 600);
                 itemVisual.layer = LayerMask.NameToLayer("UI");
                 foreach (Transform child in itemVisual.transform)
                     child.gameObject.layer = LayerMask.NameToLayer("UI");
+
+                inspectParent.SetActive(true);
             }
         }
 
         private void VisualItemRotation()
         {
-            if (Input.GetKey(KeyCode.M))
+            if (Input.GetKey(KeyCode.D))
                 visualParent.transform.GetChild(0).Rotate(0, 5, 0);
-            if (Input.GetKey(KeyCode.K))
+            if (Input.GetKey(KeyCode.Q))
                 visualParent.transform.GetChild(0).Rotate(0, -5, 0);
-            if (Input.GetKey(KeyCode.O))
+            if (Input.GetKey(KeyCode.Z))
                 visualParent.transform.GetChild(0).Rotate(5, 0, 0);
-            if (Input.GetKey(KeyCode.L))
+            if (Input.GetKey(KeyCode.S))
                 visualParent.transform.GetChild(0).Rotate(-5, 0, 0);
         }
 
@@ -339,6 +314,8 @@ namespace Photo
         {
             for (int i = 0; i < visualParent.transform.childCount; i++)
                 Destroy(visualParent.transform.GetChild(i).gameObject);
+
+            inspectParent.SetActive(false);
         }
 
         private bool VisualItemIsVisible()
@@ -347,6 +324,18 @@ namespace Photo
                 return true;
 
             return false;
+        }
+
+        private Vector3 RealScale(Transform item)
+        {
+            Vector3 Return = item.transform.localScale;
+            while (item.parent != null)
+            {
+                //Debug.Log(item.parent.name + " // " + item.parent.localScale.x + " . " + Return.x);
+                item = item.parent;
+                Return = Vector3.Scale(Return, item.transform.localScale);
+            }
+            return Return;
         }
 
         #endregion
@@ -385,11 +374,35 @@ namespace Photo
 
         public void RemovePhoto(int i)
         {
+            if (usePhoto > i)
+                usePhoto--;
+
             screenshots.RemoveAt(i);
 
+            DeselectPhoto();
             LoadPhotos(currentPage);
         }
 
+        private bool indexInPage(int index)
+        {
+            if (Mathf.Floor(index / (float)photoNumberInPage) == currentPage)
+                return true;
+
+            return false;
+        }
+
         #endregion
+
+        IEnumerator GoTo(Transform item, Transform from, Transform to) // Essai, fail, position != position absolue ? Pas le meme canvas /!\
+        {
+            item.position = from.position;
+            Vector3 dir = (item.localPosition - to.localPosition) / 10f;
+            Debug.Log(item.name + " . " + from.name + " // " + item.position + " . " + to.position + " // " + dir);
+            while (item.localPosition != to.localPosition)
+            {
+                yield return new WaitForSeconds(1f);
+                item.localPosition += dir;
+            }
+        }
     }
 }
