@@ -9,6 +9,8 @@ public class BookManager : MonoBehaviour
     // Singleton
     public static BookManager instance;
 
+    public Transform bin;
+
     public float screenRescaleCoef;
     public LayerMask layerUI;
 
@@ -19,8 +21,9 @@ public class BookManager : MonoBehaviour
     public bool hasCamera;
 
     // Scripts
-    private BlocNoteManager blocNote;
-    private Photo.UIPhoto UIPhoto;
+    public BlocNoteManager blocNote;
+    public Photo.UIPhoto UIPhoto;
+    public OptionsManager options;
 
     private LayerMask layerTemp;
 
@@ -36,6 +39,7 @@ public class BookManager : MonoBehaviour
     {
         blocNote = GetComponent<BlocNoteManager>();
         UIPhoto = GetComponent<Photo.UIPhoto>();
+        options = GetComponent<OptionsManager>();
 
         // Coefficient du rescale de l'UI
 
@@ -44,11 +48,7 @@ public class BookManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-            blocNote.ToggleBlocNote();
-        else if (Input.GetKeyDown(KeyCode.N))
-            UIPhoto.ToggleUI();
-        else if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
             ToggleBook();
     }
 
@@ -80,22 +80,38 @@ public class BookManager : MonoBehaviour
 
     public void ChangePage(int page)
     {
+        UIPhoto.DeselectPhoto();
+        UIPhoto.VisualItemOff();
+        UIPhoto.VerifyButtons();
+
         switch (page)
         {
             case 0: // Photos
                 UIPhoto.SetActive(true);
                 blocNote.SetActive(false);
-                UIPhoto.DeselectPhoto();
+                options.SetActive(false);
                 //UIPhoto.LoadPhotos();
                 break;
             case 1: // BlocNote
                 blocNote.SetActive(true);
+                UIPhoto.SetActive(false);
+                options.SetActive(false);
+                break;
+            case 2:
+                options.SetActive(true);
+                blocNote.SetActive(false);
                 UIPhoto.SetActive(false);
                 break;
             default:
                 Debug.LogError("Case non-asigned");
                 break;
         }
+    }
+
+    public void Bin(GameObject obj)
+    {
+        obj.transform.SetParent(bin);
+        Destroy(obj);
     }
 
 }

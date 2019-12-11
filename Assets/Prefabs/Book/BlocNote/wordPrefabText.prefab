@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Galil\xE9e"
@@ -96,6 +96,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32
   hole: {fileID: 0}
+  ghost: {fileID: 7221161639881372183, guid: 30cd82c5ca160064888bc0d5947298c0, type: 3}
 --- !u!65 &8255873911056075704
 BoxCollider:
   m_ObjectHideFlags: 0

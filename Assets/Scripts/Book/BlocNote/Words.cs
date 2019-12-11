@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Words : MonoBehaviour
 {
     public LayerMask holeLayer;
     public GameObject hole;
+
+    public GameObject ghost;
 
     private Vector3 posIni;
     private Vector2 mousePosClick;
@@ -16,6 +19,8 @@ public class Words : MonoBehaviour
     void Start()
     {
         posIni = transform.localPosition;
+
+        CreateGhost();
 
         pos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x / 8f, transform.position.y - GetComponent<BoxCollider>().size.y / 8f, transform.position.z);
 
@@ -32,10 +37,38 @@ public class Words : MonoBehaviour
             hole = null;
         }
 
+        ghost.SetActive(false);
+
         transform.localPosition = posIni;
+        GetComponent<Rigidbody>().position = transform.position;
     }
 
-    IEnumerator Shake(float time)
+    public void CalculPos()
+    {
+        posIni = transform.localPosition;
+        ghost.transform.position = transform.position;
+        GetComponent<Rigidbody>().position = transform.position;
+
+        if (hole != null)
+            MoveToHole(hole.transform.position);
+    }
+
+    public void CreateGhost()
+    {
+        ghost = Instantiate(ghost, BookManager.instance.blocNote.ghosts);
+        ghost.transform.position = transform.position;
+        ghost.GetComponent<RectTransform>().sizeDelta = GetComponent<RectTransform>().sizeDelta;
+        ghost.name = name;
+        ghost.transform.GetChild(0).GetComponent<Text>().text = name;
+        ghost.SetActive(false);
+    }
+
+    public void Shake(float time)
+    {
+        StartCoroutine("Shaking", time);
+    }
+
+    IEnumerator Shaking(float time)
     {
         int temp = 1;
         for (int i = 0; i < 16; i += 1)
@@ -48,6 +81,7 @@ public class Words : MonoBehaviour
         }
 
         transform.localPosition = posIni;
+        GetComponent<Rigidbody>().position = transform.position;
     }
 
     void OnMouseDown()
@@ -55,17 +89,18 @@ public class Words : MonoBehaviour
         //Debug.LogWarning(name);
         mousePosClick = Input.mousePosition;
 
-        ResetPos();
-        //if(hole != null)
-        //{
-        //    hole.transform.parent.GetComponent<Sentences>().EmptyHole(hole.GetComponent<Hole>().holeIndex);
-        //    hole.SetActive(true);
-        //    hole = null;
-        //}
+        //ResetPos();
+        if (hole != null)
+        {
+            hole.transform.parent.GetComponent<Sentences>().EmptyHole(hole.GetComponent<Hole>().holeIndex);
+            hole.SetActive(true);
+            hole = null;
+        }
     }
 
     void OnMouseDrag()
     {
+        ghost.SetActive(true);
         //Debug.Log("Dragging " + (Vector3)((Vector2)Input.mousePosition - mousePosClick));
         transform.localPosition += (Vector3)((Vector2)Input.mousePosition - mousePosClick) * BookManager.instance.screenRescaleCoef;
         mousePosClick = Input.mousePosition;
@@ -88,15 +123,27 @@ public class Words : MonoBehaviour
                 //Debug.Log("Well Played ! " + name + " // " + hit[i].name);
 
                 hole = hit[i].gameObject;
-                transform.position = hit[i].transform.position;
                 hit[i].gameObject.SetActive(false);
 
-                hit[i].transform.parent.GetComponent<Sentences>().FillHole(hit[i].GetComponent<Hole>().holeIndex, name);
+                MoveToHole(hole.transform.position);
+
+                hit[i].transform.parent.GetComponent<Sentences>().FillHole(hit[i].GetComponent<Hole>().holeIndex, gameObject);
                 break;
             }
         }
 
         if (hole == null)
-            transform.localPosition = posIni;
+            ResetPos();
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(ghost);
+    }
+
+    private void MoveToHole(Vector3 holePos)
+    {
+        transform.position = holePos;
+        GetComponent<Rigidbody>().position = transform.position;
     }
 }

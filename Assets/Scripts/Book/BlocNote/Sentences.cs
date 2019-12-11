@@ -10,14 +10,14 @@ public class Sentences : MonoBehaviour
     private Text text;
     private int wordIndex;
 
-    private string[] holeFull;
+    private GameObject[] holeFull;
 
     private int[] indexChar;
 
     private void Start()
     {
         text = GetComponent<Text>();
-        holeFull = new string[transform.childCount];
+        holeFull = new GameObject[transform.childCount];
     }
 
     //public void FillWord(string mot)
@@ -31,7 +31,7 @@ public class Sentences : MonoBehaviour
     //    }
     //}
 
-    public void FillHole(int holeIndex, string mot)
+    public void FillHole(int holeIndex, GameObject mot)
     {
         holeFull[holeIndex] = mot;
 
@@ -63,7 +63,7 @@ public class Sentences : MonoBehaviour
             {
                 temp = transform.GetChild(i / 2).gameObject;
                 tempVector = BlocNoteManager.instance.GetCharPos(gameObject.GetComponent<Text>(), gameObject.GetComponent<Text>().text + "\'", gameObject.GetComponent<Text>().text.Length, 0);
-                tempVector -= new Vector3(0, 5, 0); // ROUSTINE
+                //tempVector -= new Vector3(0, 5, 0); // ROUSTINE
 
                 temp.transform.localPosition = new Vector2(-temp.transform.parent.GetComponent<RectTransform>().rect.width / 2, 0);
                 temp.transform.localPosition += tempVector;
@@ -81,13 +81,13 @@ public class Sentences : MonoBehaviour
                 }
                 else
                 {
-                    gameObject.GetComponent<Text>().text += holeFull[i / 2] + phrase.Substring(indexChar[i + 1] + 1, indexChar[i + 2] - indexChar[i + 1] - 1);
+                    gameObject.GetComponent<Text>().text += holeFull[i / 2].name + phrase.Substring(indexChar[i + 1] + 1, indexChar[i + 2] - indexChar[i + 1] - 1);
                 }
             }
 
             temp = transform.GetChild(indexChar.Length / 2 - 1).gameObject;
             tempVector = BlocNoteManager.instance.GetCharPos(gameObject.GetComponent<Text>(), gameObject.GetComponent<Text>().text + "\'", gameObject.GetComponent<Text>().text.Length, 0);
-            tempVector -= new Vector3(0, 5, 0); // ROUSTINE
+            //tempVector -= new Vector3(0, 5, 0); // ROUSTINE
 
             temp.transform.localPosition = new Vector2(-temp.transform.parent.GetComponent<RectTransform>().rect.width / 2, 0);
             temp.transform.localPosition += tempVector;
@@ -102,7 +102,7 @@ public class Sentences : MonoBehaviour
             }
             else
             {
-                gameObject.GetComponent<Text>().text += holeFull[holeFull.Length - 1] + phrase.Substring(indexChar[indexChar.Length - 1] + 1, phrase.Length - indexChar[indexChar.Length - 1] - 1);
+                gameObject.GetComponent<Text>().text += holeFull[holeFull.Length - 1].name + phrase.Substring(indexChar[indexChar.Length - 1] + 1, phrase.Length - indexChar[indexChar.Length - 1] - 1);
             }
         }
         else
@@ -118,13 +118,22 @@ public class Sentences : MonoBehaviour
                 return;
 
         for (int i = 0; i < holeFull.Length; i++)
-            if (holeFull[i].ToLower() != transform.GetChild(i).name.ToLower())
+            if (holeFull[i].name.ToLower() != transform.GetChild(i).name.ToLower())
             {
-                BlocNoteManager.instance.VerifyWords();
+                for (int j = 0; j < holeFull.Length; j++)
+                    BlocNoteManager.instance.VerifyWords(holeFull[j].GetComponent<Words>());
+
                 return;
             }
 
         Debug.LogError("WIIIIIIIN !!!");
+
+        for (int i = 0; i < holeFull.Length; i++)
+            BookManager.instance.Bin(holeFull[i]);
+
+        BookManager.instance.blocNote.CalculWords();
+
+        //text.text = phrase;
     }
 
     private int FindWord(string mot)

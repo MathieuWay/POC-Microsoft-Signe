@@ -18,6 +18,7 @@ public class BlocNoteManager : MonoBehaviour
 
     public Transform words;
     public Transform sentences;
+    public Transform ghosts;
 
     public float interligne;
 
@@ -44,7 +45,6 @@ public class BlocNoteManager : MonoBehaviour
         //AddWord("Hdzqksldq");
         //AddWord("42");
 
-        //AddSentence("Géneralement, les gens _sont_ déstabilisés lorsqu'une _phrase_ ne se termine pas comme il le _patate_");
         //AddSentence("Lorem ipsum dolor sit amet, _consectetur_ adipiscing _elit_. " +
         //    "Proin placerat placerat lectus, at porta tortor hendrerit sed. _Mauris_ id nunc euismod, " +
         //    "placerat turpis _quis_, elementum diam. Sed blandit turpis nisl, laoreet _sodales_ diam dapibus sit amet. " +
@@ -56,12 +56,23 @@ public class BlocNoteManager : MonoBehaviour
         AddWord("Bureau");
         AddWord("Travailler");
 
+
+        //AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
+        //    "- Aimes-tu les _carottes_ ? \n" +
+        //    "- Si non, tu es un éléphant" +
+        //    "- Et ici on aime pas ça !" +
+        //    "- Surtout les vendredi");
+
+        //AddSentence("- Oui _bureau_ oui non non");
+        //AddSentence("Oui _oui_ oui");
+
         AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
             "- Il travaille beaucoup. \n" +
             "- Pourquoi ? \n" +
             "- Pour vous achetez des cadeaux à toi et ta soeur. \n" +
             "- Est-ce que je peux au moins lui apporter un verre d'eau ? \n" +
-            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché dans le _pot de fleur_ dans le couloir.");
+            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");
+        //AddSentence("Géneralement, les gens _sont_ déstabilisés lorsqu'une petite _phrase_ ne se termine pas comme il le _patate_");
     }
 
     public void SetActive(bool state)
@@ -99,7 +110,7 @@ public class BlocNoteManager : MonoBehaviour
                 words.GetChild(words.childCount - 2).localPosition.x,
                 words.GetChild(words.childCount - 2).localPosition.y - words.GetChild(words.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
 
-        instanGO.GetComponent<RectTransform>().sizeDelta = VecAbs(GetCharPos(instanGO.GetComponent<Text>(), mot + "_", mot.Length, 2)) + new Vector2(1, 1);
+        instanGO.GetComponent<RectTransform>().sizeDelta = VecAbs(GetCharPos(instanGO.GetComponent<Text>(), mot + "_", mot.Length, 2));
 
         instanGO.GetComponent<BoxCollider>().size = (Vector3)instanGO.GetComponent<RectTransform>().sizeDelta + new Vector3(0, 0, 2);
         //instanGO.GetComponent<BoxCollider2D>().size = instanGO.GetComponent<RectTransform>().sizeDelta;
@@ -136,7 +147,7 @@ public class BlocNoteManager : MonoBehaviour
 
                 temp = Instantiate(holePrefab, instanGO.transform);
                 tempVector = GetCharPos(instanGO.GetComponent<Text>(), instanGO.GetComponent<Text>().text + "\'", indexChar[i] + indexOffset, 0);
-                tempVector -= new Vector3(0, 5, 0); // ROUSTINE
+                //tempVector -= new Vector3(0, 5, 0); // ROUSTINE
                 //Debug.Log(tempVector);
 
                 instanGO.GetComponent<Text>().text += "_____";
@@ -155,7 +166,7 @@ public class BlocNoteManager : MonoBehaviour
 
             temp = Instantiate(holePrefab, instanGO.transform);
             tempVector = GetCharPos(instanGO.GetComponent<Text>(), instanGO.GetComponent<Text>().text + "\'", indexChar[indexChar.Length - 2] + indexOffset, 0);
-            tempVector -= new Vector3(0, 5, 0); // ROUSTINE
+            //tempVector -= new Vector3(0, 5, 0); // ROUSTINE
             //Debug.Log(tempVector);
 
             instanGO.GetComponent<Text>().text += "_____";
@@ -191,6 +202,8 @@ public class BlocNoteManager : MonoBehaviour
             }
     }
 
+    #region VerifyWords()
+
     public void VerifyWords()
     {
         for (int i = 0; i < words.childCount; i++)
@@ -199,6 +212,50 @@ public class BlocNoteManager : MonoBehaviour
                 words.GetChild(i).GetComponent<Words>().ResetPos();
                 words.GetChild(i).GetComponent<Words>().StartCoroutine("Shake", 0.01f);
             }
+    }
+
+    public void VerifyWords(GameObject[] word)
+    {
+        for (int i = 0; i < word.Length; i++)
+            if (word[i].GetComponent<Words>().hole != null && word[i].name.ToLower() != word[i].GetComponent<Words>().hole.name.ToLower())
+            {
+                Debug.Log(word[i].name);
+                word[i].GetComponent<Words>().ResetPos();
+                //word[i].GetComponent<Words>().Shake(0.01f);
+                word[i].GetComponent<Words>().StartCoroutine("Shake", 0.01f);
+            }
+    }
+
+    #endregion
+
+    public void VerifyWords(Words word)
+    {
+        if (word.hole != null && word.name.ToLower() != word.hole.name.ToLower())
+        {
+            word.ResetPos();
+            //word[i].GetComponent<Words>().Shake(0.01f);
+            word.StartCoroutine("Shake", 0.01f);
+        }
+    }
+
+    public void CalculWords()
+    {
+        float posY = 0;
+
+        for (int i = 0; i < words.childCount; i++)
+        {
+            RectTransform rt = words.GetChild(i).GetComponent<RectTransform>();
+            //words.GetChild(i).GetComponent<RectTransform>().anchoredPosition = new Vector3(words.GetChild(i).localPosition.x, posY, words.GetChild(i).localPosition.z);
+            rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, posY);
+            //words.GetChild(i).transform.localPosition = new Vector2(
+            //    words.GetChild(i).transform.localPosition.x,
+            //    words.GetChild(i).transform.localPosition.y + posY);
+
+            words.GetChild(i).GetComponent<Words>().CalculPos();
+
+            posY -= rt.rect.height * (interligne + 1);
+            Debug.Log(posY);
+        }
     }
 
     public List<int> FindChar(string sentence, char carac)
@@ -232,8 +289,8 @@ public class BlocNoteManager : MonoBehaviour
 
         textGen.Populate(text, textSettings);
 
-        //for (int i = 0; i < textGen.verts.Count - 1; i++)
-            //Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
+        for (int i = 0; i < textGen.verts.Count - 1; i++)
+            Debug.DrawLine(textGen.verts[i].position, textGen.verts[i+1].position, Color.magenta, 100f);
 
         int newLine = text.Substring(0, charIndex).Split('\n').Length - 1;
         int whiteSpace = text.Substring(0, charIndex).Split(' ').Length - 1;
@@ -242,12 +299,20 @@ public class BlocNoteManager : MonoBehaviour
 
         if (indexOfTextQuad < textGen.vertexCount)
         {
-            Vector3 avgPos = textGen.verts[indexOfTextQuad + points].position - textGen.verts[0].position;
+            float maxY = 0;
+
+            for (int i = 0; i < textGen.verts.Count; i += 4)
+            {
+                if (textGen.verts[i].position.y > maxY)
+                    maxY = textGen.verts[i].position.y;
+            }
+
+            Vector3 avgPos = textGen.verts[indexOfTextQuad + points].position - new Vector3(textGen.verts[0].position.x, maxY, textGen.verts[0].position.z);
             //Vector3 avgPos = new Vector3(textGen.verts[indexOfTextQuad + points].position.x - textGen.verts[0].position.x,
             //    -textGen.verts[indexOfTextQuad + points].position.y + textGen.verts[0].position.y,
             //    textGen.verts[indexOfTextQuad + points].position.z - textGen.verts[0].position.z);
 
-            //Debug.DrawLine(textGen.verts[3].position, textGen.verts[indexOfTextQuad + points].position, Color.blue, 100f);
+            Debug.DrawLine(textGen.verts[3].position, textGen.verts[indexOfTextQuad + points].position, Color.blue, 100f);
 
 
             //Debug.Log(avgPos * screenRescaleCoef);
