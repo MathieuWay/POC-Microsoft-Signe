@@ -83,7 +83,6 @@ public class BlocNoteManager : MonoBehaviour
 
     public void ToggleBlocNote()
     {
-        Debug.Log("hiue");
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
 
         if (blocNote.gameObject.activeSelf)
@@ -219,7 +218,7 @@ public class BlocNoteManager : MonoBehaviour
         for (int i = 0; i < word.Length; i++)
             if (word[i].GetComponent<Words>().hole != null && word[i].name.ToLower() != word[i].GetComponent<Words>().hole.name.ToLower())
             {
-                Debug.Log(word[i].name);
+                //Debug.Log(word[i].name);
                 word[i].GetComponent<Words>().ResetPos();
                 //word[i].GetComponent<Words>().Shake(0.01f);
                 word[i].GetComponent<Words>().StartCoroutine("Shake", 0.01f);
@@ -254,7 +253,7 @@ public class BlocNoteManager : MonoBehaviour
             words.GetChild(i).GetComponent<Words>().CalculPos();
 
             posY -= rt.rect.height * (interligne + 1);
-            Debug.Log(posY);
+            //Debug.Log(posY);
         }
     }
 

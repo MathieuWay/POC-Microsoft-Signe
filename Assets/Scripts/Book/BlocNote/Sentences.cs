@@ -126,7 +126,7 @@ public class Sentences : MonoBehaviour
                 return;
             }
 
-        Debug.LogError("WIIIIIIIN !!!");
+        //Debug.LogError("WIIIIIIIN !!!");
 
         for (int i = 0; i < holeFull.Length; i++)
             BookManager.instance.Bin(holeFull[i]);
