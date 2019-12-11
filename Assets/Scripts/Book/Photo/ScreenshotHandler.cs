@@ -11,6 +11,10 @@ public class ScreenshotHandler : MonoBehaviour
     public float photoDistance;
     public bool takePhotoWithCamera;
     public bool hasCamera;
+    public Animator upperShutter, lowerShutter;
+    //public Text photoNumber;
+    //private int numberPhoto = 0;
+    //public GameObject photoFeedback;
     //public Camera eyes;
 
     private bool takeScreenshotOnNextFrame;
@@ -38,6 +42,7 @@ public class ScreenshotHandler : MonoBehaviour
     void Start()
     {
         //sfxSource.clip = cameraShutter;
+        //photoNumber.text = numberPhoto.ToString();
     }
 
     void Update()
@@ -56,6 +61,10 @@ public class ScreenshotHandler : MonoBehaviour
         } else if (Input.GetMouseButtonDown(0) && Time.timeScale > 0 && (UIPhoto.Instance().cameraActive || !takePhotoWithCamera) && !BookManager.instance.isActive)
         {
             TakeScreenshot(500, 500);
+            lowerShutter.SetTrigger("photoAnim");
+            upperShutter.SetTrigger("photoAnim");
+
+            AudioManager.PlaySound("shutter");
             //sfxSource.Play();
             //else if (Input.GetKeyDown(KeyCode.Space))
             //{
@@ -86,6 +95,11 @@ public class ScreenshotHandler : MonoBehaviour
         myCamera.targetTexture=null;
         //Remets le rendu normal de la caméra
         //}
+
+        //numberPhoto++;
+        //photoNumber.text = numberPhoto.ToString();
+        //photoFeedback.SetActive(true);
+
     }
 
     private void OnPostRender()

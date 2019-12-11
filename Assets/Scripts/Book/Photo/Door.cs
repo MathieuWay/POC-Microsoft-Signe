@@ -5,6 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public GameObject key;
+    public Animator anim;
 
     private void OnTriggerStay(Collider other)
     {
@@ -21,7 +22,9 @@ public class Door : MonoBehaviour
         if (numPhoto > -1)
         {
             Photo.UIPhoto.Instance().RemovePhoto(numPhoto);
-            transform.parent.gameObject.SetActive(false);
+            anim.SetBool("isOpen",true);
+            AudioManager.PlaySound("door");
+
         }
     }
 }

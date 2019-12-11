@@ -41,6 +41,7 @@ public class Digicode : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    AudioManager.PlaySound("button");
                     if (selectednumber == 0) {
                     code[0] = id;
                     selectednumber++;
@@ -74,13 +75,6 @@ public class Digicode : MonoBehaviour
                 selectednumber = 0;
                 Array.Clear(code, 0, code.Length);
                 }
-            }
-            if (selection.CompareTag(usableTag))
-            {
-                 _selection = selection;
-                selectionné = selection.gameObject;
-                DisplayName displayScript = selectionné.GetComponent<DisplayName>();
-                displayScript.ShowText();
             }
             
             

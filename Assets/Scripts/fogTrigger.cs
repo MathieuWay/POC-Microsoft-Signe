@@ -22,6 +22,7 @@ public class fogTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             mirageUI.SetActive(true);
+            AudioManager.PlaySound("freeze");
         }
     }
 
