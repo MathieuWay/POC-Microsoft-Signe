@@ -35,18 +35,33 @@ public class Words : MonoBehaviour
         transform.localPosition = posIni;
     }
 
+    IEnumerator Shake(float time)
+    {
+        int temp = 1;
+        for (int i = 0; i < 16; i += 1)
+        {
+            transform.localPosition += new Vector3(0.3f, 0, 0) * temp;
+            if (i == 4 || i == 12)
+                temp *= -1;
+
+            yield return new WaitForSecondsRealtime(time / 16f);
+        }
+
+        transform.localPosition = posIni;
+    }
 
     void OnMouseDown()
     {
         //Debug.LogWarning(name);
         mousePosClick = Input.mousePosition;
 
-        if(hole != null)
-        {
-            hole.transform.parent.GetComponent<Sentences>().EmptyHole(hole.GetComponent<Hole>().holeIndex);
-            hole.SetActive(true);
-            hole = null;
-        }
+        ResetPos();
+        //if(hole != null)
+        //{
+        //    hole.transform.parent.GetComponent<Sentences>().EmptyHole(hole.GetComponent<Hole>().holeIndex);
+        //    hole.SetActive(true);
+        //    hole = null;
+        //}
     }
 
     void OnMouseDrag()
@@ -84,32 +99,4 @@ public class Words : MonoBehaviour
         if (hole == null)
             transform.localPosition = posIni;
     }
-
-
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.transform.parent != transform.parent && collision.name.ToLower() == name.ToLower()) {
-    //        Debug.Log("Well Played ! " + name);
-    //        //collision.transform.parent.gameObject.GetComponent<Sentences>().FillWord(name);
-    //        BlocNoteManager.instance.FillHole(collision.transform.parent.gameObject, collision.GetComponent<Hole>().wordIndex, collision.name);
-    //        Destroy(collision.gameObject);
-    //        Destroy(gameObject);
-    //    }
-    //}
-
-    //private void OnTriggerStay(Collider collision)
-    //{
-    //    Debug.Log(collision.name);
-    //    if (Input.GetMouseButtonUp(0) && hole == null && collision.transform.parent != transform.parent)
-    //    {
-    //        Debug.Log("Well Played ! " + name + " // " + collision.name);
-
-    //        hole = collision.gameObject;
-    //        transform.position = collision.transform.position;
-    //        collision.gameObject.SetActive(false);
-
-    //        collision.transform.parent.GetComponent<Sentences>().FillHole(collision.GetComponent<Hole>().holeIndex, name);
-    //    }
-    //}
 }

@@ -72,6 +72,7 @@ public class BlocNoteManager : MonoBehaviour
 
     public void ToggleBlocNote()
     {
+        Debug.Log("hiue");
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
 
         if (blocNote.gameObject.activeSelf)
@@ -190,11 +191,14 @@ public class BlocNoteManager : MonoBehaviour
             }
     }
 
-    public void ResetWords()
+    public void VerifyWords()
     {
         for (int i = 0; i < words.childCount; i++)
-            if(words.GetChild(i).GetComponent<Words>().hole != null && words.GetChild(i).name.ToLower() != words.GetChild(i).GetComponent<Words>().hole.name.ToLower())
+            if (words.GetChild(i).GetComponent<Words>().hole != null && words.GetChild(i).name.ToLower() != words.GetChild(i).GetComponent<Words>().hole.name.ToLower())
+            {
                 words.GetChild(i).GetComponent<Words>().ResetPos();
+                words.GetChild(i).GetComponent<Words>().StartCoroutine("Shake", 0.01f);
+            }
     }
 
     public List<int> FindChar(string sentence, char carac)
