@@ -66,6 +66,8 @@ namespace Photo
         private GameObject itemVisual;
         private LayerMask layerTemp;
 
+        private Vector3 mouseDragOrigin;
+
         #region Singleton
         //Singleton
         private static UIPhoto instance = null;
@@ -275,6 +277,11 @@ namespace Photo
             VisualItemToggle(currentIndex);
         }
 
+        public void ResetRotationVisual()
+        {
+            visualParent.transform.GetChild(0).rotation = Quaternion.identity;
+        }
+
         #endregion
 
         #region Visuel de l'item dans la galerie
@@ -289,6 +296,7 @@ namespace Photo
                 //itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
                 itemVisual.transform.localPosition = new Vector3(0, 0, -350);
                 itemVisual.transform.localScale = RealScale(screenshots[index].listObjects[0].transform) * 3f;
+                itemVisual.transform.rotation = Quaternion.identity;
                 //itemVisual.transform.localScale = new Vector3(itemVisual.transform.localScale.x * 600, itemVisual.transform.localScale.y * 600, itemVisual.transform.localScale.z * 600);
                 itemVisual.layer = LayerMask.NameToLayer("UI");
                 foreach (Transform child in itemVisual.transform)
@@ -308,6 +316,14 @@ namespace Photo
                 visualParent.transform.GetChild(0).Rotate(5, 0, 0);
             if (Input.GetKey(KeyCode.S))
                 visualParent.transform.GetChild(0).Rotate(-5, 0, 0);
+
+            if (Input.GetMouseButtonDown(0))
+                mouseDragOrigin = Input.mousePosition;
+            else if (Input.GetMouseButton(0))
+            {
+                visualParent.transform.GetChild(0).Rotate((Input.mousePosition.y - mouseDragOrigin.y) / 2, (mouseDragOrigin.x - Input.mousePosition.x) / 2, 0, Space.Self);
+                mouseDragOrigin = Input.mousePosition;
+            }
         }
 
         public void VisualItemOff()

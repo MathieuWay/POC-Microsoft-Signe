@@ -991,6 +991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: {fileID: 508884390}
+  anim: {fileID: 0}
 --- !u!1 &44393341
 GameObject:
   m_ObjectHideFlags: 0
@@ -52424,6 +52425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: {fileID: 1812515625}
+  anim: {fileID: 0}
 --- !u!1 &1571976959
 GameObject:
   m_ObjectHideFlags: 0
@@ -62394,6 +62396,8 @@ MonoBehaviour:
   photoDistance: 13
   takePhotoWithCamera: 1
   hasCamera: 0
+  upperShutter: {fileID: 916570388}
+  lowerShutter: {fileID: 1738692150}
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 0}
 --- !u!81 &1876791273
