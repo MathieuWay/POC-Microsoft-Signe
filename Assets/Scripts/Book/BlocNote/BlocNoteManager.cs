@@ -79,12 +79,13 @@ public class BlocNoteManager : MonoBehaviour
     {
         if (blocNote.gameObject.activeSelf != state)
             blocNote.gameObject.SetActive(state);
+       
     }
 
     public void ToggleBlocNote()
     {
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
-
+        
         if (blocNote.gameObject.activeSelf)
         {
             layerTemp = Camera.main.cullingMask;

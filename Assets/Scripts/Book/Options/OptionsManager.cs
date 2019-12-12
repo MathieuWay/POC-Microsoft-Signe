@@ -51,11 +51,13 @@ public class OptionsManager : MonoBehaviour
         {
             options.SetActive(state);
             SetActiveQuit(state);
+            
         }
     }
 
     public void ChangePage(int page)
     {
+        
         switch (page)
         {
             case 0:

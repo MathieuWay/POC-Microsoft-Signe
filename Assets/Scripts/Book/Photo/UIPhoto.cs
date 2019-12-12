@@ -134,6 +134,7 @@ namespace Photo
             //Camera.main.cullingMask ^= layerUI;
             if (ui.gameObject.activeSelf)
             {
+                AudioManager.PlaySound("book");
                 layerTemp = Camera.main.cullingMask;
                 Camera.main.cullingMask = layerUI;
                 Time.timeScale = 0;

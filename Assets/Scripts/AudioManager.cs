@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
-    public static AudioClip freezeSound, shutterSound, buttonSound, doorSound, stepSound;
+    public static AudioClip freezeSound, shutterSound, buttonSound, doorSound, stepSound, bookSound;
     static AudioSource audioSrc;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
         buttonSound = Resources.Load<AudioClip>("buttonSound");
         doorSound = Resources.Load<AudioClip>("doorSound");
         stepSound = Resources.Load<AudioClip>("stepSound");
+        bookSound = Resources.Load<AudioClip>("bookSound");
 
 
         audioSrc = GetComponent<AudioSource>();
@@ -38,6 +39,9 @@ public class AudioManager : MonoBehaviour
                 break;
             case "step":
                 audioSrc.PlayOneShot(stepSound);
+                break;
+            case "book":
+                audioSrc.PlayOneShot(bookSound);
                 break;
         }
     }
