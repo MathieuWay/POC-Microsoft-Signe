@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Digicode : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Digicode : MonoBehaviour
     public int id, selectednumber;
     public int[] code = new int[4];
     public int[] codeattendu = new int[4];
+    public Text num1, num2, num3, num4;
 
     private void Start()
     {
@@ -43,22 +45,26 @@ public class Digicode : MonoBehaviour
                 {
                     AudioManager.PlaySound("button");
                     if (selectednumber == 0) {
-                    code[0] = id;
-                    selectednumber++;
+                        code[0] = id;
+                        num1.text = id.ToString();
+                        selectednumber++;
                     }
                     else if (selectednumber == 1)
                     {
                         code[1] = id;
+                        num2.text = id.ToString();
                         selectednumber++;
                     }
                     else if (selectednumber == 2)
                     {
                         code[2] = id;
+                        num3.text = id.ToString();
                         selectednumber++;
                     }
                     else if (selectednumber == 3)
                     {
                         code[3] = id;
+                        num4.text = id.ToString();
                         selectednumber++;
                     }
 
@@ -74,6 +80,11 @@ public class Digicode : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) { 
                 selectednumber = 0;
                 Array.Clear(code, 0, code.Length);
+                    num1.text = 0.ToString();
+                    num2.text = 0.ToString();
+                    num3.text = 0.ToString();
+                    num4.text = 0.ToString();
+
                 }
             }
             
