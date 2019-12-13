@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Video;
 
-//[RequireComponent(typeof(Albane_fristPersonController))]
-//[RequireComponent(typeof(Albane_PlayerMotor))]
+[RequireComponent(typeof(VideoPlayer))]
 public class RewindVideo : MonoBehaviour
 {
     private VideoPlayer videoplayer;
@@ -16,21 +15,27 @@ public class RewindVideo : MonoBehaviour
     private float startTime = 0;
     public float currentSpeed = 0;
     public float targetSpeed = 0;
+    private float actualSpeed;
     public float reverseSpeedFactor = 2;
+
+    IEnumerator coroutine;
 
     // Start is called before the first frame update
     void Start()
     {
         videoplayer = GetComponent<VideoPlayer>();
+
+        videoplayer.skipOnDrop = true;
         videoplayer.Play();
-        Debug.Log(videoplayer.length);
+        coroutine = reverse();
+        //Debug.Log(videoplayer.length);
     }
 
     // Update is called once per frame
     void Update()
     {
         float t = (Time.time - startTime) / duration;
-        float actualSpeed = Mathf.Lerp(currentSpeed, targetSpeed, t);
+        actualSpeed = Mathf.Lerp(currentSpeed, targetSpeed, t);
         //Debug.Log("min:"+currentSpeed+"/max:"+ targetSpeed + "/t:"+t);
         //achived speed
         if(targetSpeed - actualSpeed == 0)
@@ -44,13 +49,24 @@ public class RewindVideo : MonoBehaviour
         {
             if (reversed && videoplayer.playbackSpeed == 0)
             {
-                videoplayer.time += actualSpeed * Time.deltaTime * reverseSpeedFactor;
+                //Debug.Log(actualSpeed * Time.deltaTime * reverseSpeedFactor);
+                //videoplayer.frame -= (long)(videoplayer.frameRate * Time.deltaTime);
             }
             else
                 videoplayer.playbackSpeed = actualSpeed;
         }
     }
-    
+
+    IEnumerator reverse()
+    {
+        while (true)
+        {
+            Debug.Log("reversing");
+            videoplayer.time += actualSpeed * Time.deltaTime * reverseSpeedFactor;
+            yield return new WaitForSeconds(0.75f);
+        }
+    }
+
     public void PlayScene()
     {
         startTime = Time.time;
@@ -75,6 +91,7 @@ public class RewindVideo : MonoBehaviour
     public void ResumeScene()
     {
         reversed = false;
+        StopCoroutine(coroutine);
         if (!paused)
         {
             PlayScene();
@@ -91,5 +108,6 @@ public class RewindVideo : MonoBehaviour
         startTime = Time.time;
         targetSpeed = -1;
         reversed = true;
+        StartCoroutine(coroutine);
     }
 }
