@@ -6,6 +6,7 @@ public class Curseur : MonoBehaviour
 {
     public GameObject curseur;
     public GameObject hand;
+    public BookManager bookManager;
 
     private Transform _selection;
     [SerializeField] private string usableTag = "Usable";
@@ -23,10 +24,11 @@ public class Curseur : MonoBehaviour
         {
             hand.SetActive(false);
             curseur.SetActive(false);
+            
         }
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) && bookManager.isActive == false)
         {
             var selection = hit.transform;
             if (selection.CompareTag(usableTag))
@@ -42,13 +44,14 @@ public class Curseur : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (bookManager.isActive == true)
         {
-            
-            hand.SetActive(false);
             curseur.SetActive(false);
-            Debug.Log("Carnet Ouvert");
-            
+            hand.SetActive(false);
         }
+
+
+
+        
     }
 }
