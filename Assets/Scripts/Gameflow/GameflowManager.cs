@@ -55,7 +55,7 @@ public class GameflowManager : MonoBehaviour
         }
         else
         {
-                explanationText.text = currentStep.explanation;
+            explanationText.text = currentStep.explanation;
         }
     }
 

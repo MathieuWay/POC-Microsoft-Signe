@@ -11,23 +11,18 @@ public class Curseur : MonoBehaviour
     private Transform _selection;
     [SerializeField] private string usableTag = "Usable";
     [SerializeField] private string objectTag = "Camera";
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if(_selection == null)
         {
             hand.SetActive(false);
             curseur.SetActive(false);
-            
         }
+
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
         if (Physics.Raycast(ray, out hit) && bookManager.isActive == false)
         {
             var selection = hit.transform;
@@ -40,8 +35,6 @@ public class Curseur : MonoBehaviour
             {
                 hand.SetActive(true);
             }
-
-
         }
 
         if (bookManager.isActive == true)
@@ -49,9 +42,5 @@ public class Curseur : MonoBehaviour
             curseur.SetActive(false);
             hand.SetActive(false);
         }
-
-
-
-        
     }
 }

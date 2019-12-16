@@ -63,18 +63,18 @@ public class BlocNoteManager : MonoBehaviour
         //    "placerat turpis _quis_, elementum diam. Sed blandit turpis nisl, laoreet _sodales_ diam dapibus sit amet. " +
         //    "_Nunc_ tempor augue erat, vitae dapibus metus mattis ultrices. _42_");
 
-        AddWord("Jouer");
-        AddWord("Evier");
-        AddWord("Pot de fleur");
-        AddWord("Bureau");
-        AddWord("Travailler");
+        //AddWord("Jouer");
+        //AddWord("Evier");
+        //AddWord("Pot de fleur");
+        //AddWord("Bureau");
+        //AddWord("Travailler");
 
 
-        AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
-            "- Aimes-tu les _carottes_ ? \n" +
-            "- Si non, tu es un éléphant" +
-            "- Et ici on aime pas ça !" +
-            "- Surtout les vendredi");
+        //AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
+        //    "- Aimes-tu les _carottes_ ? \n" +
+        //    "- Si non, tu es un éléphant" +
+        //    "- Et ici on aime pas ça !" +
+        //    "- Surtout les vendredi");
 
         //AddSentence("- Oui _bureau_ oui non non");
         //AddSentence("Oui _oui_ oui");
@@ -86,18 +86,6 @@ public class BlocNoteManager : MonoBehaviour
             "- Est-ce que je peux au moins lui apporter un verre d'eau ? \n" +
             "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");
 
-        AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
-            "- Aimes-tu les _carottes_ ? \n" +
-            "- Si non, tu es un éléphant" +
-            "- Et ici on aime pas ça !" +
-            "- Surtout les vendredi");
-
-        AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
-            "- Il travaille beaucoup. \n" +
-            "- Pourquoi ? \n" +
-            "- Pour vous achetez des cadeaux à toi et ta soeur. \n" +
-            "- Est-ce que je peux au moins lui apporter un verre d'eau ? \n" +
-            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");
         //AddSentence("Géneralement, les gens _sont_ déstabilisés lorsqu'une petite _phrase_ ne se termine pas comme il le _patate_");
     }
 

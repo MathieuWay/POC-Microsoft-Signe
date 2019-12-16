@@ -44,6 +44,9 @@ public class BookManager : MonoBehaviour
         // Coefficient du rescale de l'UI
 
         isActive = book.activeSelf;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()

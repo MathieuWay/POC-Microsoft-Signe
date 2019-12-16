@@ -17,8 +17,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   words:
-  - Lampe
+  - Lamp
   - Poster
   - Pomme
+  - "Poster de cl\xE9"
   - "Cl\xE9"
+  - 
+  - 
+  - 
