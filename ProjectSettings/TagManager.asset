@@ -9,6 +9,8 @@ TagManager:
   - Esprit
   - Digicode
   - DigicodeClear
+  - Camera
+  - Ghost
   layers:
   - Default
   - TransparentFX

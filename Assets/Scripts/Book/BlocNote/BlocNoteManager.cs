@@ -126,21 +126,24 @@ public class BlocNoteManager : MonoBehaviour
 
     public void AddWord(string mot)
     {
-        instanGO = Instantiate(wordPrefab, words);
-        instanGO.name = mot;
-        instanGO.GetComponent<Text>().text = mot;
+        if (mot != "")
+        {
+            instanGO = Instantiate(wordPrefab, words);
+            instanGO.name = mot;
+            instanGO.GetComponent<Text>().text = mot;
 
-        if (words.childCount > 1)
-            instanGO.transform.localPosition = new Vector2(
-                words.GetChild(words.childCount - 2).localPosition.x,
-                words.GetChild(words.childCount - 2).localPosition.y - words.GetChild(words.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
+            if (words.childCount > 1)
+                instanGO.transform.localPosition = new Vector2(
+                    words.GetChild(words.childCount - 2).localPosition.x,
+                    words.GetChild(words.childCount - 2).localPosition.y - words.GetChild(words.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
 
-        instanGO.GetComponent<RectTransform>().sizeDelta = VecAbs(GetCharPos(instanGO.GetComponent<Text>(), mot + "_", mot.Length, 2));
+            instanGO.GetComponent<RectTransform>().sizeDelta = VecAbs(GetCharPos(instanGO.GetComponent<Text>(), mot + "_", mot.Length, 2));
 
-        instanGO.GetComponent<BoxCollider>().size = (Vector3)instanGO.GetComponent<RectTransform>().sizeDelta + new Vector3(0, 0, 2);
-        //instanGO.GetComponent<BoxCollider2D>().size = instanGO.GetComponent<RectTransform>().sizeDelta;
-        instanGO.GetComponent<BoxCollider>().center = new Vector2(instanGO.GetComponent<BoxCollider>().size.x / 2f, -instanGO.GetComponent<BoxCollider>().size.y / 2f);
-        //instanGO.GetComponent<BoxCollider2D>().offset = new Vector2(instanGO.GetComponent<BoxCollider2D>().size.x / 2f, -instanGO.GetComponent<BoxCollider2D>().size.y / 2f);
+            instanGO.GetComponent<BoxCollider>().size = (Vector3)instanGO.GetComponent<RectTransform>().sizeDelta + new Vector3(0, 0, 2);
+            //instanGO.GetComponent<BoxCollider2D>().size = instanGO.GetComponent<RectTransform>().sizeDelta;
+            instanGO.GetComponent<BoxCollider>().center = new Vector2(instanGO.GetComponent<BoxCollider>().size.x / 2f, -instanGO.GetComponent<BoxCollider>().size.y / 2f);
+            //instanGO.GetComponent<BoxCollider2D>().offset = new Vector2(instanGO.GetComponent<BoxCollider2D>().size.x / 2f, -instanGO.GetComponent<BoxCollider2D>().size.y / 2f);
+        }
     }
 
     public void AddSentence(string phrase)

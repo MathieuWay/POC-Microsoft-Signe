@@ -417,7 +417,15 @@ namespace Photo
             LoadPhotos(currentPage);
         }
 
-        private void UnequipPhoto()
+        public bool EquippedPhotoHasItem()
+        {
+            if (usePhoto > -1 && screenshots[usePhoto].listObjects.Length > 0)
+                return true;
+
+            return false;
+        }
+
+        public void UnequipPhoto()
         {
             usePhoto = -1;
             equipedPhoto.gameObject.SetActive(false);

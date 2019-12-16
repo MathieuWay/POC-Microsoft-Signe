@@ -12,6 +12,8 @@ public class ScreenshotHandler : MonoBehaviour
     public bool takePhotoWithCamera;
     public bool hasCamera;
     public Animator upperShutter, lowerShutter;
+
+    public WordsData wordsData;
     //public Text photoNumber;
     //private int numberPhoto = 0;
     //public GameObject photoFeedback;
@@ -52,7 +54,7 @@ public class ScreenshotHandler : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance) && hit.collider.CompareTag("Camera"))
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance / 2f) && hit.collider.CompareTag("Camera"))
                 {
                     BookManager.instance.hasCamera = true;
                     Destroy(hit.collider.gameObject);
@@ -72,6 +74,13 @@ public class ScreenshotHandler : MonoBehaviour
             //if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward) * 2, out hit, 2) && hit.collider.CompareTag("Usable"))
             //Debug.Log(hit.collider.name);
             //}
+        } else if (Input.GetKeyDown(KeyCode.E) &&
+            BookManager.instance.UIPhoto.EquippedPhotoHasItem() &&
+            Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, photoDistance / 2f) && hit.collider.CompareTag("Ghost")) {
+
+            BookManager.instance.blocNote.AddWord(wordsData.FindWord(BookManager.instance.UIPhoto.EquippedPhotoName()));
+            BookManager.instance.UIPhoto.RemovePhoto(BookManager.instance.UIPhoto.usePhoto);
+            BookManager.instance.UIPhoto.UnequipPhoto();
         }
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * photoDistance, Color.green);

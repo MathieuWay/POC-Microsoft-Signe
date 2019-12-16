@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7727,6 +7727,7 @@ MonoBehaviour:
   hasCamera: 0
   upperShutter: {fileID: 1119109060}
   lowerShutter: {fileID: 2120426631}
+  wordsData: {fileID: 11400000, guid: f1b3d480936ceb94d8a8d4f108620027, type: 2}
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 424041522}
 --- !u!81 &265000341
@@ -8456,6 +8457,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: casper3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 25d345a84904f7341a87de140dd1fde3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ghost
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 25d345a84904f7341a87de140dd1fde3,
         type: 3}
@@ -11645,6 +11651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: casper3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 25d345a84904f7341a87de140dd1fde3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ghost
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 25d345a84904f7341a87de140dd1fde3,
         type: 3}
@@ -14999,6 +15010,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ourson (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 49efd116faaad464bb1b044808f4bce7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4224801822505238522, guid: 49efd116faaad464bb1b044808f4bce7,
         type: 3}
@@ -20721,6 +20737,19 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 389920838}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &809631921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809631919}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 31.124662, y: 61.030163, z: 25.82412}
+  m_Center: {x: -9.437762, y: 27.922972, z: -7.4030013}
 --- !u!1 &813220563
 GameObject:
   m_ObjectHideFlags: 0
@@ -24947,6 +24976,7 @@ MonoBehaviour:
   hasCamera: 0
   upperShutter: {fileID: 1119109060}
   lowerShutter: {fileID: 2120426631}
+  wordsData: {fileID: 0}
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 424041522}
 --- !u!81 &926713475
@@ -43525,6 +43555,11 @@ PrefabInstance:
       propertyPath: key
       value: 
       objectReference: {fileID: 567290949}
+    - target: {fileID: 3003177467862121055, guid: 9914411ff2dc9b24bbef9d4394cfa7ca,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914411ff2dc9b24bbef9d4394cfa7ca, type: 3}
 --- !u!4 &1565946822 stripped
@@ -43697,7 +43732,7 @@ GameObject:
   - component: {fileID: 1571960588}
   - component: {fileID: 1571960589}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Lamp
   m_TagString: Usable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45856,6 +45891,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 286051730}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1653903713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653903710}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 31.124662, y: 61.030163, z: 25.82412}
+  m_Center: {x: -9.437762, y: 27.922972, z: -7.4030013}
 --- !u!1 &1657033127
 GameObject:
   m_ObjectHideFlags: 0
@@ -50736,7 +50784,7 @@ GameObject:
   - component: {fileID: 1867179730}
   - component: {fileID: 1867179729}
   m_Layer: 5
-  m_Name: Image
+  m_Name: EquippedPhoto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51147,6 +51195,7 @@ MonoBehaviour:
   hasCamera: 0
   upperShutter: {fileID: 1119109060}
   lowerShutter: {fileID: 2120426631}
+  wordsData: {fileID: 0}
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 424041522}
 --- !u!81 &1876791273
@@ -56920,7 +56969,7 @@ GameObject:
   - component: {fileID: 2103248830}
   - component: {fileID: 2103248833}
   m_Layer: 0
-  m_Name: Sphere.001 (1)
+  m_Name: Pomme
   m_TagString: Usable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
