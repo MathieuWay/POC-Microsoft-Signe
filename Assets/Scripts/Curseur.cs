@@ -41,5 +41,14 @@ public class Curseur : MonoBehaviour
 
 
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            
+            hand.SetActive(false);
+            curseur.SetActive(false);
+            Debug.Log("Carnet Ouvert");
+            
+        }
     }
 }

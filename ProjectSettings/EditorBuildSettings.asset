@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Florian_Copy 3.unity
     guid: 72b6037c2cd5ed246904ffccb86f5469
+  - enabled: 0
+    path: Assets/Scenes/Trailer.unity
+    guid: 41d21d5b6ee693c41a24da1b6cadca68
   m_configObjects: {}
