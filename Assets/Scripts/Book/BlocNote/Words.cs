@@ -84,6 +84,8 @@ public class Words : MonoBehaviour
         GetComponent<Rigidbody>().position = transform.position;
     }
 
+    #region OnSmthg()
+
     void OnMouseDown()
     {
         //Debug.LogWarning(name);
@@ -140,6 +142,8 @@ public class Words : MonoBehaviour
     {
         Destroy(ghost);
     }
+
+    #endregion
 
     private void MoveToHole(Vector3 holePos)
     {

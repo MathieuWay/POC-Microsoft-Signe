@@ -11,16 +11,23 @@ public class BlocNoteManager : MonoBehaviour
 
     public Transform blocNote;
     public LayerMask layerUI;
+    public float interligne;
 
+    [Header("Prefabs")]
     public GameObject sentencePrefab;
     public GameObject wordPrefab;
     public GameObject holePrefab;
+    public GameObject pagePrefab;
 
+    [Header("Parents")]
     public Transform words;
     public Transform sentences;
     public Transform ghosts;
 
-    public float interligne;
+    [Header("Arrows")]
+    public GameObject leftButton;
+    public GameObject rightButton;
+
 
 
     private LayerMask layerTemp;
@@ -29,9 +36,15 @@ public class BlocNoteManager : MonoBehaviour
     private int[] indexChar;
     private int indexOffset;
 
+    private int currentPage;
+
     void Start()
     {
         instance = this;
+
+        CreatePage(0);
+        currentPage = 0;
+        ChangePage(currentPage);
 
         //blocNote = transform.GetChild(0);
 
@@ -57,14 +70,27 @@ public class BlocNoteManager : MonoBehaviour
         AddWord("Travailler");
 
 
-        //AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
-        //    "- Aimes-tu les _carottes_ ? \n" +
-        //    "- Si non, tu es un éléphant" +
-        //    "- Et ici on aime pas ça !" +
-        //    "- Surtout les vendredi");
+        AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
+            "- Aimes-tu les _carottes_ ? \n" +
+            "- Si non, tu es un éléphant" +
+            "- Et ici on aime pas ça !" +
+            "- Surtout les vendredi");
 
         //AddSentence("- Oui _bureau_ oui non non");
         //AddSentence("Oui _oui_ oui");
+
+        AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
+            "- Il travaille beaucoup. \n" +
+            "- Pourquoi ? \n" +
+            "- Pour vous achetez des cadeaux à toi et ta soeur. \n" +
+            "- Est-ce que je peux au moins lui apporter un verre d'eau ? \n" +
+            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");
+
+        AddSentence("Oui, c'est bien les carottes, _mais_ _seulement_ le vêndredi... \n" +
+            "- Aimes-tu les _carottes_ ? \n" +
+            "- Si non, tu es un éléphant" +
+            "- Et ici on aime pas ça !" +
+            "- Surtout les vendredi");
 
         AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
             "- Il travaille beaucoup. \n" +
@@ -79,13 +105,12 @@ public class BlocNoteManager : MonoBehaviour
     {
         if (blocNote.gameObject.activeSelf != state)
             blocNote.gameObject.SetActive(state);
-       
     }
 
     public void ToggleBlocNote()
     {
         blocNote.gameObject.SetActive(!blocNote.gameObject.activeSelf);
-        
+
         if (blocNote.gameObject.activeSelf)
         {
             layerTemp = Camera.main.cullingMask;
@@ -120,14 +145,17 @@ public class BlocNoteManager : MonoBehaviour
 
     public void AddSentence(string phrase)
     {
-        instanGO = Instantiate(sentencePrefab, sentences);
+        Transform lastPage = sentences.GetChild(sentences.childCount - 1);
+
+        instanGO = Instantiate(sentencePrefab, lastPage);
         instanGO.name = phrase.Substring(0, 10);
+        RectTransform instaRect = instanGO.GetComponent<RectTransform>();
         //instanGO.GetComponent<Sentences>().phrase = phrase;
 
-        if (sentences.childCount > 1)
+        if (lastPage.childCount > 1)
             instanGO.transform.localPosition = new Vector2(
-                sentences.GetChild(sentences.childCount - 2).localPosition.x,
-                sentences.GetChild(sentences.childCount - 2).localPosition.y - sentences.GetChild(sentences.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
+                lastPage.GetChild(lastPage.childCount - 2).localPosition.x,
+                lastPage.GetChild(lastPage.childCount - 2).localPosition.y - lastPage.GetChild(lastPage.childCount - 2).GetComponent<RectTransform>().rect.height * (interligne + 1));
 
         indexChar = FindChar(phrase, '_').ToArray();
         
@@ -180,9 +208,20 @@ public class BlocNoteManager : MonoBehaviour
             instanGO.GetComponent<Text>().text = phrase;
 
 
-        instanGO.GetComponent<RectTransform>().sizeDelta = new Vector2(
-            instanGO.GetComponent<RectTransform>().sizeDelta.x, 
+        instaRect.sizeDelta = new Vector2(
+            instaRect.sizeDelta.x, 
             Mathf.Abs(GetCharPos(instanGO.GetComponent<Text>(), phrase + "_", phrase.Length, 3).y));
+
+        //Debug.Log(Mathf.Abs(instaRect.anchoredPosition.y) + " . " + instaRect.sizeDelta.y + " , " + sentences.GetComponent<RectTransform>().rect.height);
+        if (Mathf.Abs(instaRect.anchoredPosition.y) + instaRect.sizeDelta.y > sentences.GetComponent<RectTransform>().rect.height)
+        {
+            CreatePage(sentences.childCount);
+            instanGO.transform.SetParent(sentences.GetChild(sentences.childCount - 1));
+            instaRect.anchoredPosition = Vector2.zero;
+            sentences.GetChild(sentences.childCount - 1).gameObject.SetActive(false);
+
+            VerifyButtons();
+        }
     }
 
     //public void FillHole(GameObject sentenceObject, int charIndex, string word)
@@ -191,6 +230,55 @@ public class BlocNoteManager : MonoBehaviour
     //    Debug.Log(sentence.Length + " . " + charIndex + " . " + word.Length + " // " + (sentence.Length - (charIndex + 5 + 5) + charIndex));
     //    sentenceObject.GetComponent<Text>().text = sentence.Substring(0, charIndex) + word + sentence.Substring(charIndex + 5, sentence.Length - (charIndex + 5));
     //}
+
+    private void CreatePage(int index)
+    {
+        Instantiate(pagePrefab, sentences).name = "Page " + index;
+    }
+
+    public void ChangePage(int index)
+    {
+        GameObject[] holes;
+
+        for (int i = 0; i < sentences.GetChild(currentPage).childCount; i++)
+        {
+            holes = sentences.GetChild(currentPage).GetChild(i).GetComponent<Sentences>().GetFilledHoles();
+
+            if (holes != null)
+                for (int j = 0; j < holes.Length; j++)
+                    if(holes[j] != null)
+                        holes[j].SetActive(false);
+        }
+
+        sentences.GetChild(currentPage).gameObject.SetActive(false);
+        currentPage += index;
+        sentences.GetChild(currentPage).gameObject.SetActive(true);
+
+        for (int i = 0; i < sentences.GetChild(currentPage).childCount; i++)
+        {
+            holes = sentences.GetChild(currentPage).GetChild(i).GetComponent<Sentences>().GetFilledHoles();
+
+            if(holes != null)
+                for (int j = 0; j < holes.Length; j++)
+                    if (holes[j] != null)
+                        holes[j].SetActive(true);
+        }
+
+        VerifyButtons();
+    }
+
+    private void VerifyButtons()
+    {
+        if (currentPage > 0)
+            leftButton.SetActive(true);
+        else
+            leftButton.SetActive(false);
+
+        if(currentPage < sentences.childCount - 1)
+            rightButton.SetActive(true);
+        else
+            rightButton.SetActive(false);
+    }
 
     public void PlaceWords()
     {

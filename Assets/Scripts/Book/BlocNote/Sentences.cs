@@ -46,6 +46,11 @@ public class Sentences : MonoBehaviour
         CalculateSentence();
     }
 
+    public GameObject[] GetFilledHoles()
+    {
+        return holeFull;
+    }
+
     private void CalculateSentence()
     {
         indexChar = BlocNoteManager.instance.FindChar(phrase, '_').ToArray();
@@ -133,6 +138,8 @@ public class Sentences : MonoBehaviour
 
         BookManager.instance.blocNote.CalculWords();
 
+        StartCoroutine(Grow(0.2f, 6));
+
         //text.text = phrase;
     }
 
@@ -145,5 +152,18 @@ public class Sentences : MonoBehaviour
                         return i;
 
         return -1;
+    }
+
+    IEnumerator Grow(float time, int frame)
+    {
+        for (int i = 0; i < frame; i++)
+        {
+            if(i < frame/2)
+                transform.localScale += new Vector3(0.01f, 0.01f, 0);
+            else
+                transform.localScale -= new Vector3(0.01f, 0.01f, 0);
+
+            yield return new WaitForSecondsRealtime(time / frame);
+        }
     }
 }

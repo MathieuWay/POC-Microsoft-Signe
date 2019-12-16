@@ -17,14 +17,20 @@ public class Door : MonoBehaviour
 
     public void Use()
     {
-        int numPhoto = Photo.UIPhoto.Instance().FindPhoto(key);
+        //int numPhoto = Photo.UIPhoto.Instance().FindPhoto(key);
 
-        if (numPhoto > -1)
+        //if (numPhoto > -1)
+        //{
+        //    Photo.UIPhoto.Instance().RemovePhoto(numPhoto);
+        //    anim.SetBool("isOpen",true);
+        //    AudioManager.PlaySound("door");
+
+        //}
+        if (BookManager.instance.UIPhoto.EquippedPhotoName() == key.name)
         {
-            Photo.UIPhoto.Instance().RemovePhoto(numPhoto);
-            anim.SetBool("isOpen",true);
+            Photo.UIPhoto.Instance().RemovePhoto(BookManager.instance.UIPhoto.usePhoto);
+            anim.SetBool("isOpen", true);
             AudioManager.PlaySound("door");
-
         }
     }
 }

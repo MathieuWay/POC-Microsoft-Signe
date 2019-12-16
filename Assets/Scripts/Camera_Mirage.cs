@@ -12,7 +12,9 @@ public class Camera_Mirage : MonoBehaviour
     public GameObject _mirageUI;
 
     private Animator _anim;
-    private PostProcessLayer _postProcLayer;
+    private FxPro _postProcLayer;
+
+    private float fieldOfViewIni;
 
     //Singleton
     private static Camera_Mirage instance = null;
@@ -30,11 +32,13 @@ public class Camera_Mirage : MonoBehaviour
     {
         
         _anim = GetComponent<Animator>();
-        _postProcLayer = _cam.GetComponent<PostProcessLayer>();
+        _postProcLayer = _cam.GetComponent<FxPro>();
 
         _cam.cullingMask &= ~_mirageLayer;
         _postProcLayer.enabled = false;
         _mirageUI.SetActive(false);
+
+        fieldOfViewIni = Camera.main.fieldOfView;
     }
 
     void Update()
@@ -48,7 +52,7 @@ public class Camera_Mirage : MonoBehaviour
     private void SwitchLayers()
     {
         _cam.cullingMask ^= _mirageLayer;
-        _postProcLayer.enabled = !_cam.GetComponent<PostProcessLayer>().enabled;
+        TogglePostProc();
         _mirageUI.SetActive(!_mirageUI.activeSelf);
 
         if ((_cam.cullingMask & _mirageLayer) != 0)
@@ -69,7 +73,12 @@ public class Camera_Mirage : MonoBehaviour
 
     public void TogglePostProc()
     {
-        _postProcLayer.enabled = !_cam.GetComponent<PostProcessLayer>().enabled;
+        _postProcLayer.enabled = !_postProcLayer.enabled;
+
+        if(Camera.main.fieldOfView != fieldOfViewIni)
+            Camera.main.fieldOfView = fieldOfViewIni;
+        else
+            Camera.main.fieldOfView -= 10;
     }
     /*public void ShowOverheadView()
     {

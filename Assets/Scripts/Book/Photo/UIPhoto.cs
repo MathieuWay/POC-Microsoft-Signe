@@ -295,13 +295,13 @@ namespace Photo
             {
                 itemVisual = Instantiate(screenshots[index].listObjects[0], visualParent.transform);
                 //itemVisual.transform.localScale = new Vector3(500, 500, 500); // Probl : A ameliorer (scale non relatif)
-                itemVisual.transform.localPosition = new Vector3(0, 0, -350);
+                itemVisual.transform.localPosition = new Vector3(0, 0, -200);
                 itemVisual.transform.localScale = RealScale(screenshots[index].listObjects[0].transform) * 3f;
                 itemVisual.transform.rotation = Quaternion.identity;
                 //itemVisual.transform.localScale = new Vector3(itemVisual.transform.localScale.x * 600, itemVisual.transform.localScale.y * 600, itemVisual.transform.localScale.z * 600);
-                itemVisual.layer = LayerMask.NameToLayer("UI");
-                foreach (Transform child in itemVisual.transform)
-                    child.gameObject.layer = LayerMask.NameToLayer("UI");
+
+                itemVisual.layer = visualParent.layer;
+                SetLayerRecursively(itemVisual, visualParent.layer);
 
                 inspectParent.SetActive(true);
             }
@@ -355,6 +355,21 @@ namespace Photo
             return Return;
         }
 
+        void SetLayerRecursively(GameObject obj, int newLayer)
+        {
+            if (null == obj)
+                return;
+
+            obj.layer = newLayer;
+
+            foreach (Transform child in obj.transform)
+            {
+                if (null == child)
+                    continue;
+                SetLayerRecursively(child.gameObject, newLayer);
+            }
+        }
+
         #endregion
 
         #region  Utilitaires photos
@@ -393,11 +408,19 @@ namespace Photo
         {
             if (usePhoto > i)
                 usePhoto--;
+            else if (usePhoto == i)
+                UnequipPhoto();
 
             screenshots.RemoveAt(i);
 
             DeselectPhoto();
             LoadPhotos(currentPage);
+        }
+
+        private void UnequipPhoto()
+        {
+            usePhoto = -1;
+            equipedPhoto.gameObject.SetActive(false);
         }
 
         private bool indexInPage(int index)
@@ -420,6 +443,14 @@ namespace Photo
                 yield return new WaitForSeconds(1f);
                 item.localPosition += dir;
             }
+        }
+
+        public string EquippedPhotoName()
+        {
+            if(usePhoto != - 1 && screenshots[usePhoto].listObjects.Length > 0)
+                return screenshots[usePhoto].listObjects[0].name;
+
+            return null;
         }
     }
 }

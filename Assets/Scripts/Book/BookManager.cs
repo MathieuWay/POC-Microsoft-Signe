@@ -57,18 +57,25 @@ public class BookManager : MonoBehaviour
 
         book.SetActive(isActive);
 
+
         if (Camera_Mirage.Instance().GetCamState())
             Camera_Mirage.Instance().TogglePostProc();
+
+        Cursor.visible = isActive;
 
         if (isActive)
         {
             layerTemp = Camera.main.cullingMask;
             Camera.main.cullingMask = layerUI;
             Time.timeScale = 0;
+
+            Cursor.lockState = CursorLockMode.None;
         } else
         {
             Camera.main.cullingMask = layerTemp;
             Time.timeScale = 1;
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         if (UIPhoto.isUIDisplayed())
