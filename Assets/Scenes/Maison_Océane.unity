@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7073,7 +7073,7 @@ MonoBehaviour:
   hasCamera: 0
   upperShutter: {fileID: 1119109060}
   lowerShutter: {fileID: 2120426631}
-  wordsData: {fileID: 11400000, guid: f1b3d480936ceb94d8a8d4f108620027, type: 2}
+  wordsData: {fileID: 11400000, guid: 136c9b549f9941d429fbc953299437bf, type: 2}
   cameraShutter: {fileID: 8300000, guid: eaedc849419184c4abb8d7e1bc854598, type: 3}
   sfxSource: {fileID: 424041522}
 --- !u!81 &265000341
@@ -7792,6 +7792,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1493913965}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &283131100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1408065809435447838, guid: 04e70081efa69224da10e5267f8a0907,
+    type: 3}
+  m_PrefabInstance: {fileID: 1616176718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &283131101
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283131100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 17.507105, y: 1.1545839, z: 17.596521}
+  m_Center: {x: 0.065154575, y: 0.4414405, z: -0.06616642}
 --- !u!1001 &286051730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23480,6 +23499,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: porte (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8177472491239941430, guid: 9914411ff2dc9b24bbef9d4394cfa7ca,
+        type: 3}
+      propertyPath: m_TagString
+      value: Usable
+      objectReference: {fileID: 0}
     - target: {fileID: 5127187919650707237, guid: 9914411ff2dc9b24bbef9d4394cfa7ca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24610,8 +24634,8 @@ GameObject:
   - component: {fileID: 975162394}
   - component: {fileID: 975162398}
   - component: {fileID: 975162397}
-  - component: {fileID: 975162396}
   - component: {fileID: 975162395}
+  - component: {fileID: 975162396}
   m_Layer: 5
   m_Name: Timeline3
   m_TagString: Untagged
@@ -24664,11 +24688,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 975162393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd5b86bfa864d44ba07857cb834b0ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f71ec5389c208ec47bc5363094abef28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   order: 6
   explanation: 
+  rewind: {fileID: 975162395}
   director: {fileID: 975162398}
 --- !u!95 &975162397
 Animator:
@@ -68723,6 +68748,7 @@ GameObject:
   - component: {fileID: 5127187918923879798}
   - component: {fileID: 170533092983340655}
   - component: {fileID: 8177472491421640550}
+  - component: {fileID: 8177472491421640551}
   m_Layer: 0
   m_Name: porte (3)
   m_TagString: Untagged
@@ -68749,6 +68775,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8177472491421640551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177472491421640549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c680e476cbc5cb14ea989e226227327d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expected:
+  - bureau
+  - jouer
+  - "cl\xE9"
+  - pot de fleur
+  doorAnimator: {fileID: 8177472491421640550}
 --- !u!1 &8296172667649142820
 GameObject:
   m_ObjectHideFlags: 0

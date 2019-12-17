@@ -11,10 +11,6 @@ public class WordsData : ScriptableObject
     private void Awake()
     {
         words = new List<string>();
-    }
-
-    private void OnEnable()
-    {
         usable = GameObject.FindGameObjectsWithTag("Usable");
 
         if (words.Count > usable.Length)
@@ -24,6 +20,10 @@ public class WordsData : ScriptableObject
         if (words.Count < usable.Length)
             while (words.Count < usable.Length)
                 words.Add("");
+    }
+
+    private void OnEnable()
+    {
     }
 
     public string FindWord(string itemName)

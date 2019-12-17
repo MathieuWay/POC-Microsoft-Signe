@@ -38,6 +38,9 @@ public class BlocNoteManager : MonoBehaviour
 
     private int currentPage;
 
+    public delegate void OnWordAddedDelegate();
+    public static OnWordAddedDelegate wordAddedDelegate;
+
     void Start()
     {
         instance = this;
@@ -79,12 +82,12 @@ public class BlocNoteManager : MonoBehaviour
         //AddSentence("- Oui _bureau_ oui non non");
         //AddSentence("Oui _oui_ oui");
 
-        AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
+        /*AddSentence("- Papa s'est encore enfermé dans le _bureau_... et il a même refusé de _jouer_ avec Emily. \n" +
             "- Il travaille beaucoup. \n" +
             "- Pourquoi ? \n" +
             "- Pour vous achetez des cadeaux à toi et ta soeur. \n" +
             "- Est-ce que je peux au moins lui apporter un verre d'eau ? \n" +
-            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");
+            "- Oui, je suis sur que ca lui fera plaisir. Un double des clés est caché sous le _pot de fleur_ dans le couloir.");*/
 
         //AddSentence("Géneralement, les gens _sont_ déstabilisés lorsqu'une petite _phrase_ ne se termine pas comme il le _patate_");
     }
@@ -131,6 +134,7 @@ public class BlocNoteManager : MonoBehaviour
             //instanGO.GetComponent<BoxCollider2D>().size = instanGO.GetComponent<RectTransform>().sizeDelta;
             instanGO.GetComponent<BoxCollider>().center = new Vector2(instanGO.GetComponent<BoxCollider>().size.x / 2f, -instanGO.GetComponent<BoxCollider>().size.y / 2f);
             //instanGO.GetComponent<BoxCollider2D>().offset = new Vector2(instanGO.GetComponent<BoxCollider2D>().size.x / 2f, -instanGO.GetComponent<BoxCollider2D>().size.y / 2f);
+            wordAddedDelegate();
         }
     }
 
