@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Trailer.unity
     guid: 41d21d5b6ee693c41a24da1b6cadca68
+  - enabled: 0
+    path: "Assets/Scenes/Maison_Oc\xE9ane_Backup.unity"
+    guid: fb4726ea3156af24680b232ce244844c
   m_configObjects: {}
