@@ -16,16 +16,22 @@ public class Digicode : MonoBehaviour
     public int[] codeattendu = new int[4];
     public Text num1, num2, num3, num4;
 
+    public Animation animator;
+
     private void Start()
     {
-        
+        animator = GetComponent<Animation>();
     }
 
     void Update()
     {
         if (code[0] == codeattendu[0] && code[1] == codeattendu[1] && code[2] == codeattendu[2] && code[3] == codeattendu[3])
         {
+
+            animator.Play("coffreanimation");
             Debug.Log("Le coffre s'ouvre");
+           
+
             // mettre l'animation du coffre ici 
         }
 
