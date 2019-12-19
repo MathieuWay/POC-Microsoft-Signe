@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22481697187a1f34db97fc85e980ee57, type: 3}
-  m_Name: WordDatabase 1
+  m_Name: WordDatabase
   m_EditorClassIdentifier: 
   usable:
   - {fileID: 0}
@@ -22,13 +22,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   words:
+  - bureau
   - bureau
   - lampe
   - poster
   - pomme
-  - poster
+  - "poster de cl\xE9"
+  - "cl\xE9 bureau"
   - "cl\xE9"
-  - pot de fleur
+  - 'pot de fleur '
+  - "cl\xE9"
   - jouer
   - "cl\xE9"

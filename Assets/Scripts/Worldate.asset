@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22481697187a1f34db97fc85e980ee57, type: 3}
-  m_Name: WorldDataFin
+  m_Name: Worldate
   m_EditorClassIdentifier: 
   usable:
   - {fileID: 0}
@@ -23,14 +23,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   words:
+  - bureau
   - lampe
   - poster
   - pomme
   - "poster de cl\xE9"
-  - "cl\xE9"
+  - "cl\xE9 bureau"
+  - "cl\xE9 1"
   - pot de fleur
-  - "cl\xE9"
+  - "cl\xE92"
   - jouer
   - "cl\xE9"
-  - bureau
