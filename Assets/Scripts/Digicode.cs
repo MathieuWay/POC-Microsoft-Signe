@@ -15,12 +15,14 @@ public class Digicode : MonoBehaviour
     public int[] code = new int[4];
     public int[] codeattendu = new int[4];
     public Text num1, num2, num3, num4;
+    public GameObject GameObject;
+    public GameObject Code;
 
-    public Animation animator;
+    public Animator animator;
 
     private void Start()
     {
-        animator = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -28,7 +30,8 @@ public class Digicode : MonoBehaviour
         if (code[0] == codeattendu[0] && code[1] == codeattendu[1] && code[2] == codeattendu[2] && code[3] == codeattendu[3])
         {
 
-            animator.Play("coffreanimation");
+            Destroy(GameObject);
+            Destroy(Code);
             Debug.Log("Le coffre s'ouvre");
            
 

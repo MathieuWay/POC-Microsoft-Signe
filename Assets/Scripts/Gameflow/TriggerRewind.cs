@@ -15,11 +15,12 @@ public class TriggerRewind : Step
         rewind.ToggleScene();
         if (rewindVideo)
             rewindVideo.ToggleScene();
-        director.stopped += onPlayableDirectorEnded;
+        director.stopped += OnPlayableDirectorEnded;
     }
 
-    public void onPlayableDirectorEnded(PlayableDirector director)
+    public void OnPlayableDirectorEnded(PlayableDirector director)
     {
         GameflowManager.Instance.CompletedTutorial();
+        Debug.Log("marche");
     }
 }
